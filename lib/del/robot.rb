@@ -19,7 +19,7 @@ module Del
       connection.disconnect
     end
 
-    def receive_message(message)
+    def receive(message)
       return if message.type == :error || message.body.nil?
       send_message(message.from, message.body)
     end

@@ -23,7 +23,7 @@ module Del
       roster.wait_for_roster
       #@mention_name = roster[jid].attributes["mention_name"]
       client.add_message_callback do |message|
-        robot.receive_message(message)
+        robot.receive(message)
       end
       client.send(Jabber::Presence.new(:chat))
       list_rooms(configuration[:muc_domain]).each do |room|
