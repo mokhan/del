@@ -21,8 +21,8 @@ module Del
       end
       roster.get_roster
       roster.wait_for_roster
-      #@mention_name = roster[jid].attributes["mention_name"]
       client.add_message_callback do |message|
+        next if message.type == :error || message.body.nil?
         robot.receive(message)
       end
       client.send(Jabber::Presence.new(:chat))

@@ -15,12 +15,21 @@ module Del
   def self.start(dotenv_file:)
     puts "Loading... #{dotenv_file}"
     Dotenv.load(dotenv_file)
-    del = Robot.new(configuration: {
+    puts "It's fire! 🔥"
+    del = Robot.new(configuration: configuration)
+    del.get_funky!
+  end
+
+  def self.configure
+    yield configuration
+  end
+
+  def self.configuration
+    @configuration ||= {
       host: ENV.fetch("DEL_HOST"),
       jid: ENV.fetch("DEL_JID"),
       muc_domain: ENV.fetch("DEL_MUC_DOMAIN"),
       password: ENV.fetch("DEL_PASSWORD"),
-    })
-    del.run
+    }
   end
 end

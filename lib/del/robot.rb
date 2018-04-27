@@ -1,10 +1,8 @@
 module Del
   class Robot
-    attr_reader :connection, :users, :rooms
+    attr_reader :connection
 
     def initialize(configuration:)
-      @users = UserRepository.new
-      @rooms = RoomRepository.new
       @connection = Connection.new(
         configuration: configuration,
         users: users,
@@ -12,7 +10,7 @@ module Del
       )
     end
 
-    def run
+    def get_funky!
       connection.connect(self)
       sleep
     rescue Interrupt
@@ -20,12 +18,21 @@ module Del
     end
 
     def receive(message)
-      return if message.type == :error || message.body.nil?
       send_message(message.from, message.body)
     end
 
     def send_message(jid, message)
       connection.deliver(jid, message)
+    end
+
+    private
+
+    def users
+      @users ||= UserRepository.new
+    end
+
+    def rooms
+      @rooms ||= RoomRepository.new
     end
   end
 end
