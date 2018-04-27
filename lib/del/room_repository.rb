@@ -1,3 +1,4 @@
+module Del
   class RoomRepository
     def initialize
       @rooms = Set.new
@@ -7,3 +8,4 @@
       @rooms << room
     end
   end
+end

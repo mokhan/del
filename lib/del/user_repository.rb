@@ -1,3 +1,4 @@
+module Del
   class UserRepository
     def initialize
       @users = Set.new
@@ -7,3 +8,4 @@
       @users << User.new(item.attributes)
     end
   end
+end
