@@ -18,7 +18,7 @@ module Del
       client.auth(configuration[:password])
       roster = Jabber::Roster::Helper.new(client, false)
       roster.add_update_callback do |old_item, item|
-        users.upsert(item) if item
+        users.upsert(item['jid'], item.attributes.to_h) if item
       end
       roster.get_roster
       roster.wait_for_roster

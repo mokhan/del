@@ -1,12 +1,16 @@
 module Del
   class Repository
-    def initialize(storage = Set.new)
+    def initialize(storage = {})
       @storage = storage
     end
 
-    def upsert(item)
-      Del.logger.debug(item)
-      @storage << item
+    def find_by(id)
+      @storage[id]
+    end
+
+    def upsert(id, attributes = {})
+      Del.logger.debug([id, attributes].inspect)
+      @storage[id] = attributes
     end
   end
 end
