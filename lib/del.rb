@@ -14,7 +14,7 @@ require "del/version"
 module Del
   def self.start(dotenv_file:)
     puts "Loading... #{dotenv_file}"
-    Dotenv.load(dotenv_file)
+    Dotenv.load(dotenv_file.to_s)
     puts "It's fire! 🔥"
     del = Robot.new(configuration: configuration)
     del.get_funky!
