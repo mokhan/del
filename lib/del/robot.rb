@@ -1,14 +1,13 @@
 module Del
   class Robot
     attr_reader :connection, :router
+    attr_reader :users, :rooms
 
     def initialize(configuration:)
-      @connection = Connection.new(
-        configuration: configuration,
-        users: users,
-        rooms: rooms,
-      )
+      @connection = Connection.new(configuration: configuration)
       @router = configuration[:router]
+      @users = configuration[:users]
+      @rooms = configuration[:rooms]
     end
 
     def get_funky!
@@ -24,16 +23,6 @@ module Del
 
     def send_message(jid, message)
       connection.deliver(jid, message)
-    end
-
-    private
-
-    def users
-      @users ||= UserRepository.new
-    end
-
-    def rooms
-      @rooms ||= RoomRepository.new
     end
   end
 end

@@ -8,9 +8,7 @@ require "xmpp4r/roster/helper/roster"
 require "del/connection"
 require "del/default_router"
 require "del/robot"
-require "del/room_repository"
-require "del/user"
-require "del/user_repository"
+require "del/repository"
 require "del/version"
 
 module Del
@@ -30,10 +28,12 @@ module Del
     @configuration ||= {
       host: ENV.fetch("DEL_HOST"),
       jid: ENV.fetch("DEL_JID"),
+      logger: Logger.new(STDOUT),
       muc_domain: ENV.fetch("DEL_MUC_DOMAIN"),
       password: ENV.fetch("DEL_PASSWORD"),
+      rooms: Repository.new,
       router: DefaultRouter.new,
-      logger: Logger.new(STDOUT)
+      users: Repository.new,
     }
   end
 

@@ -2,10 +2,10 @@ module Del
   class Connection
     attr_reader :configuration, :rooms, :users
 
-    def initialize(configuration:, users:, rooms:)
+    def initialize(configuration:)
       @configuration = configuration
-      @rooms = rooms
-      @users = users
+      @rooms = configuration[:rooms]
+      @users = configuration[:users]
     end
 
     def connect(robot)
@@ -18,7 +18,7 @@ module Del
       client.auth(configuration[:password])
       roster = Jabber::Roster::Helper.new(client, false)
       roster.add_update_callback do |old_item, item|
-        users.create(item) if item
+        users.upsert(item) if item
       end
       roster.get_roster
       roster.wait_for_roster
