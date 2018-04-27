@@ -58,6 +58,7 @@ module Del
       client.add_message_callback do |message|
         next if message.type == :error || message.body.nil?
         puts message.inspect
+        send_message(message.from, message.body)
       end
       client.send(Jabber::Presence.new(:chat))
       list_rooms(configuration[:muc_domain]).each do |room|
@@ -66,6 +67,12 @@ module Del
       sleep
     rescue Interrupt
       shut_down
+    end
+
+    def send_message(jid, message)
+      message = Jabber::Message.new(jid, encode_string(message))
+      message.type = :chat
+      client.send(message)
     end
 
     private
@@ -89,6 +96,10 @@ module Del
     def shut_down
       puts "byte me!"
       client.close
+    end
+
+    def encode_string(s)
+      s.encode('UTF-8', invalid: :replace, undef: :replace)
     end
   end
 end
