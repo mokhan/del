@@ -1,35 +1,4 @@
-require 'xmpp4r'
-require 'xmpp4r/roster/helper/roster'
-require 'xmpp4r/muc/helper/simplemucclient'
-require 'xmpp4r/muc/helper/mucbrowser'
-
 module Del
-  class User
-    def initialize(attributes)
-      @attributes = attributes
-    end
-  end
-
-  class UserRepository
-    def initialize
-      @users = Set.new
-    end
-
-    def create(item)
-      @users << User.new(item.attributes)
-    end
-  end
-
-  class RoomRepository
-    def initialize
-      @rooms = Set.new
-    end
-
-    def upsert(room)
-      @rooms << room
-    end
-  end
-
   class Robot
     attr_reader :configuration, :users, :rooms
 
@@ -53,11 +22,9 @@ module Del
       end
       roster.get_roster
       roster.wait_for_roster
-      @mention_name = roster[jid].attributes['mention_name']
-
+      #@mention_name = roster[jid].attributes["mention_name"]
       client.add_message_callback do |message|
         next if message.type == :error || message.body.nil?
-        puts message.inspect
         send_message(message.from, message.body)
       end
       client.send(Jabber::Presence.new(:chat))
@@ -99,7 +66,7 @@ module Del
     end
 
     def encode_string(s)
-      s.encode('UTF-8', invalid: :replace, undef: :replace)
+      s.encode("UTF-8", invalid: :replace, undef: :replace)
     end
   end
 end
