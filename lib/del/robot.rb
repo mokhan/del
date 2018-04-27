@@ -1,6 +1,6 @@
 module Del
   class Robot
-    attr_reader :connection
+    attr_reader :connection, :router
 
     def initialize(configuration:)
       @connection = Connection.new(
@@ -8,6 +8,7 @@ module Del
         users: users,
         rooms: rooms,
       )
+      @router = configuration[:router]
     end
 
     def get_funky!
@@ -18,7 +19,7 @@ module Del
     end
 
     def receive(message)
-      send_message(message.from, message.body)
+      router.route(message)
     end
 
     def send_message(jid, message)

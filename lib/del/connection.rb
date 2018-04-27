@@ -10,6 +10,7 @@ module Del
 
     def connect(robot)
       client.on_exception do |error, connection, error_source|
+        Del.logger.error(error)
         disconnect
       end
       client.connect(configuration[:host])
