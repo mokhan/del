@@ -4,11 +4,12 @@ require "xmpp4r/muc/helper/mucbrowser"
 require "xmpp4r/muc/helper/simplemucclient"
 require "xmpp4r/roster/helper/roster"
 
+require "del/connection"
 require "del/robot"
-require "del/version"
 require "del/room_repository"
 require "del/user"
 require "del/user_repository"
+require "del/version"
 
 module Del
   def self.start
