@@ -26,10 +26,12 @@ module Del
 
   def self.configuration
     @configuration ||= {
+      default_rooms: ENV.fetch("DEL_ROOMS", '').split(','),
       host: ENV.fetch("DEL_HOST"),
       jid: ENV.fetch("DEL_JID"),
       logger: Logger.new(STDOUT),
       muc_domain: ENV.fetch("DEL_MUC_DOMAIN"),
+      name: ENV.fetch("DEL_FULL_NAME"),
       password: ENV.fetch("DEL_PASSWORD"),
       rooms: Repository.new,
       router: DefaultRouter.new,

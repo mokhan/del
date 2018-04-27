@@ -2,9 +2,11 @@ module Del
   class Robot
     attr_reader :connection, :router
     attr_reader :users, :rooms
+    attr_reader :name
 
     def initialize(configuration:)
       @connection = Connection.new(configuration: configuration)
+      @name = configuration[:name]
       @router = configuration[:router]
       @users = configuration[:users]
       @rooms = configuration[:rooms]

@@ -27,6 +27,7 @@ module Del
         robot.receive(message)
       end
       client.send(Jabber::Presence.new(:chat))
+      configuration[:default_rooms].each { |room| join(room, robot) }
       list_rooms(configuration[:muc_domain]).each do |room|
         rooms.upsert(room)
       end
@@ -50,9 +51,7 @@ module Del
     end
 
     def jid
-      jid = Jabber::JID.new(configuration[:jid])
-      jid.resource = "bot"
-      jid
+      @jid ||= normalize_jid(configuration[:jid], "chat.hipchat.com", "bot")
     end
 
     def list_rooms(muc_domain)
@@ -61,8 +60,23 @@ module Del
       end
     end
 
+    def join(room, robot)
+      Del.logger.debug("Joining #{room} as #{robot.name}")
+      normalize_jid(room, configuration[:muc_domain], robot.name)
+    end
+
     def encode_string(s)
       s.encode("UTF-8", invalid: :replace, undef: :replace)
+    end
+
+    def normalize_jid(jid, domain, resource)
+      jid = Jabber::JID.new(jid)
+      jid.resource = resource
+      unless jid.node
+        jid.node = jid.domain
+        jid.domain = domain
+      end
+      jid
     end
   end
 end
