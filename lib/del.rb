@@ -12,9 +12,9 @@ require "del/user_repository"
 require "del/version"
 
 module Del
-  def self.start
-    Dotenv.load(".env.local", Pathname.new(Dir.home).join(".delrc").to_s)
-
+  def self.start(dotenv_file:)
+    puts "Loading... #{dotenv_file}"
+    Dotenv.load(dotenv_file)
     del = Robot.new(configuration: {
       host: ENV.fetch("DEL_HOST"),
       jid: ENV.fetch("DEL_JID"),

@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby
 
 require "del"
+require "pathname"
 
-Del.start
+home = Pathname.new(Dir.home)
+Del.start(
+  dotenv_file: ENV.fetch("DELRC", home.join(".delrc").to_s)
+)
