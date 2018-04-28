@@ -8,6 +8,10 @@ module Del
       @source = source
     end
 
+    def reply(message)
+      source.reply(robot, message)
+    end
+
     def to_s
       "#{source}: #{text}"
     end

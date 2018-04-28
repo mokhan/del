@@ -55,9 +55,16 @@ module Del
       client.send(message)
     end
 
+    def deliver_to_room(jid, message)
+      muc = @mucs[jid.strip.to_s]
+      muc.say(encode_string(message)) if muc
+    end
+
     def disconnect
       puts "byte me!"
       client.close
+    rescue IOError, SystemCallError => error
+      Del.logger.error(error)
     end
 
     private
