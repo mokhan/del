@@ -1,6 +1,6 @@
 # Del
 
-Del is a funky robosapien.
+[Del is a funky robosapien](https://www.delhiero.com/)
 
 ## Installation
 
