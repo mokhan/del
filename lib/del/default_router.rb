@@ -10,8 +10,8 @@ module Del
 
     def route(message)
       @routes.each do |route|
-        if route[:pattern].match(message.text)
-          route[:command].call(message)
+        if matches = route[:pattern].match(message.text)
+          route[:command].call(message, matches)
         end
       end
     end
