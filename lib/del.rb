@@ -7,8 +7,11 @@ require "xmpp4r/roster/helper/roster"
 
 require "del/connection"
 require "del/default_router"
-require "del/robot"
+require "del/message"
 require "del/repository"
+require "del/robot"
+require "del/source"
+require "del/user"
 require "del/version"
 
 module Del
@@ -16,6 +19,7 @@ module Del
     puts "Loading... #{dotenv_file}"
     Dotenv.load(dotenv_file.to_s)
     puts "It's fire! 🔥"
+    Del.logger.level = Logger::INFO
     del = Robot.new(configuration: configuration)
     del.get_funky!
   end

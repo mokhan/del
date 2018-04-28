@@ -10,13 +10,17 @@ module Del
     end
 
     def find_by(id)
-      @lock.synchronize { @storage[id] }
+      @lock.synchronize { @storage[id.to_s] }
+    end
+
+    def find_all
+      @lock.synchronize { @storage.keys }
     end
 
     def upsert(id, attributes = {})
       Del.logger.debug([id, attributes].inspect)
       @lock.synchronize do
-        @storage[id] = attributes
+        @storage[id.to_s] = attributes
       end
     end
   end

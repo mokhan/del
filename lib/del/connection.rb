@@ -6,6 +6,7 @@ module Del
       @configuration = configuration
       @rooms = configuration[:rooms]
       @users = configuration[:users]
+      @mucs = {}
     end
 
     def connect(robot)
@@ -18,16 +19,31 @@ module Del
       client.auth(configuration[:password])
       roster = Jabber::Roster::Helper.new(client, false)
       roster.add_update_callback do |old_item, item|
-        users.upsert(item['jid'], item.attributes.to_h) if item
+        users.upsert(item['jid'], User.new(item['jid'], item)) if item
       end
       roster.get_roster
       roster.wait_for_roster
       client.add_message_callback do |message|
         next if message.type == :error || message.body.nil?
-        robot.receive(message)
+        user = configuration[:users].find_by(message.from.strip)
+        robot.receive(message.body, source: Source.new(user: user))
       end
       client.send(Jabber::Presence.new(:chat))
-      configuration[:default_rooms].each { |room| join(room, robot) }
+      configuration[:default_rooms].each do |room|
+        Del.logger.debug("Joining #{room} as #{robot.name}")
+        room_jid = jid_for(room, configuration[:muc_domain].dup, robot.name)
+        stripped_jid = room_jid.strip.to_s
+        next if @mucs[stripped_jid]
+
+        muc = Jabber::MUC::SimpleMUCClient.new(client)
+        @mucs[stripped_jid] = muc
+        muc.on_message do |_, nickname, message|
+          Del.logger.debug([nickname, message].inspect)
+          other_jid = roster.items.find { |jid, item| item.iname == nickname }
+          robot.receive(message, source: Source.new(user: User.new(other_jid[0], other_jid[1]), room: stripped_jid))
+        end
+        muc.join(room_jid)
+      end
       list_rooms(configuration[:muc_domain]).each do |room|
         rooms.upsert(room)
       end
@@ -51,7 +67,7 @@ module Del
     end
 
     def jid
-      @jid ||= normalize_jid(configuration[:jid], "chat.hipchat.com", "bot")
+      @jid ||= jid_for(configuration[:jid], "chat.hipchat.com", "bot")
     end
 
     def list_rooms(muc_domain)
@@ -60,16 +76,11 @@ module Del
       end
     end
 
-    def join(room, robot)
-      Del.logger.debug("Joining #{room} as #{robot.name}")
-      normalize_jid(room, configuration[:muc_domain], robot.name)
-    end
-
     def encode_string(s)
       s.encode("UTF-8", invalid: :replace, undef: :replace)
     end
 
-    def normalize_jid(jid, domain, resource)
+    def jid_for(jid, domain, resource)
       jid = Jabber::JID.new(jid)
       jid.resource = resource
       unless jid.node

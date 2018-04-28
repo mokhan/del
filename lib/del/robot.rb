@@ -19,8 +19,8 @@ module Del
       connection.disconnect
     end
 
-    def receive(message)
-      router.route(message)
+    def receive(message, source:)
+      router.route(Message.new(message, robot: self, source: source))
     end
 
     def send_message(jid, message)
