@@ -61,7 +61,7 @@ module Del
     end
 
     def disconnect
-      puts "byte me!"
+      Del.logger.info("byte me!")
       client.close
     rescue IOError, SystemCallError => error
       Del.logger.error(error)

@@ -15,6 +15,7 @@ module Del
 
     def get_funky!
       connection.connect(self)
+      Del.logger.info("It's fire! 🔥")
       sleep
     rescue Interrupt
       connection.disconnect
