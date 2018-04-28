@@ -1,6 +1,6 @@
 module Del
   class Robot
-    attr_reader :connection, :router
+    attr_reader :connection, :router, :server
     attr_reader :users, :rooms
     attr_reader :jid, :name
 
@@ -11,12 +11,13 @@ module Del
       @router = configuration.router
       @users = configuration.users
       @rooms = configuration.rooms
+      @server = SocketServer.new
     end
 
     def get_funky!
-      connection.connect(self)
       Del.logger.info("It's fire! 🔥")
-      sleep
+      connection.connect(self)
+      server.run(self)
     rescue Interrupt
       connection.disconnect
     end
