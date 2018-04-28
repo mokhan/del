@@ -16,17 +16,17 @@ require "del/user"
 require "del/version"
 
 module Del
-  def self.start(dotenv_file:)
+  def self.start(dotenv_file:, startup_file:)
     puts "Loading... #{dotenv_file}"
     Dotenv.load(dotenv_file.to_s)
-    Del.logger.level = Logger::INFO
-    del = Robot.new(configuration: configuration)
     Del.configure do |config|
       config.router.register(/.*/) do |message|
-        logger.info(message.to_s)
-        message.reply(message.text.reverse)
+        logger.debug(message.to_s)
       end
     end
+    load startup_file if startup_file && File.exist?(startup_file)
+
+    del = Robot.new(configuration: configuration)
     del.get_funky!
   end
 
