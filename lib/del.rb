@@ -21,6 +21,12 @@ module Del
     Dotenv.load(dotenv_file.to_s)
     Del.logger.level = Logger::INFO
     del = Robot.new(configuration: configuration)
+    Del.configure do |config|
+      config.router.register(/.*/) do |message|
+        logger.info(message.to_s)
+        message.reply(message.text.reverse)
+      end
+    end
     del.get_funky!
   end
 
@@ -33,6 +39,6 @@ module Del
   end
 
   def self.logger
-    @logger ||= configuration[:logger]
+    @logger ||= configuration.logger
   end
 end

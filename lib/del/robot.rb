@@ -6,11 +6,11 @@ module Del
 
     def initialize(configuration:)
       @connection = Connection.new(configuration: configuration)
-      @jid = configuration[:jid]
-      @name = configuration[:name]
-      @router = configuration[:router]
-      @users = configuration[:users]
-      @rooms = configuration[:rooms]
+      @jid = configuration.jid
+      @name = configuration.name
+      @router = configuration.router
+      @users = configuration.users
+      @rooms = configuration.rooms
     end
 
     def get_funky!

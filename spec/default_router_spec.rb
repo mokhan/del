@@ -1,5 +1,5 @@
 RSpec.describe Del::DefaultRouter do
-  subject { described_class.new(Logger.new(STDOUT)) }
+  subject { described_class.new }
 
   describe "#route" do
     let(:recorder) { [] }

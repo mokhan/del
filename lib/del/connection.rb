@@ -4,8 +4,8 @@ module Del
 
     def initialize(configuration:)
       @configuration = configuration
-      @rooms = configuration[:rooms]
-      @users = configuration[:users]
+      @rooms = configuration.rooms
+      @users = configuration.users
       @mucs = {}
     end
 
@@ -14,9 +14,9 @@ module Del
         Del.logger.error(error)
         disconnect
       end
-      client.connect(configuration[:host])
+      client.connect(configuration.host)
       sleep 0.0001 until client.is_connected?
-      client.auth(configuration[:password])
+      client.auth(configuration.password)
       roster = Jabber::Roster::Helper.new(client, false)
       roster.add_update_callback do |old_item, item|
         users.upsert(item['jid'], User.new(item['jid'], item)) if item
@@ -25,13 +25,13 @@ module Del
       roster.wait_for_roster
       client.add_message_callback do |message|
         next if message.type == :error || message.body.nil?
-        user = configuration[:users].find_by(message.from.strip)
+        user = configuration.users.find_by(message.from.strip)
         robot.receive(message.body, source: Source.new(user: user))
       end
       client.send(Jabber::Presence.new(:chat))
-      configuration[:default_rooms].each do |room|
+      configuration.default_rooms.each do |room|
         Del.logger.debug("Joining #{room} as #{robot.name}")
-        room_jid = jid_for(room, configuration[:muc_domain].dup, robot.name)
+        room_jid = jid_for(room, configuration.muc_domain.dup, robot.name)
         stripped_jid = room_jid.strip.to_s
         next if @mucs[stripped_jid]
 
@@ -44,7 +44,7 @@ module Del
         end
         muc.join(room_jid)
       end
-      list_rooms(configuration[:muc_domain]).each do |room|
+      list_rooms(configuration.muc_domain).each do |room|
         rooms.upsert(room)
       end
     end
@@ -74,7 +74,7 @@ module Del
     end
 
     def jid
-      @jid ||= jid_for(configuration[:jid], "chat.hipchat.com", "bot")
+      @jid ||= jid_for(configuration.jid, "chat.hipchat.com", "bot")
     end
 
     def list_rooms(muc_domain)

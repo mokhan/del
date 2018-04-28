@@ -1,10 +1,7 @@
 module Del
   class DefaultRouter
-    attr_reader :logger
-
-    def initialize(logger = Del.logger)
-      @logger = logger
-      @routes = []
+    def initialize(routes = [])
+      @routes = routes
     end
 
     def register(pattern, &block)
@@ -12,7 +9,6 @@ module Del
     end
 
     def route(message)
-      logger.info(message.to_s)
       @routes.each do |route|
         if route[:pattern].match(message.text)
           route[:command].call(message)
