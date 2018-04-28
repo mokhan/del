@@ -20,6 +20,21 @@ Or install it yourself as:
 
 ## Usage
 
+Create a `.delrc` file in your `$HOME` directory.
+
+Add the following environment variables:
+
+```text
+DEL_FULL_NAME='Del the Funky Robosapien'
+DEL_HOST='chat.mycompany.com'
+DEL_JID='my_id@chat.btf.hipchat.com'
+DEL_MUC_DOMAIN='conf.btf.hipchat.com'
+DEL_PASSWORD=secret
+DEL_ROOMS=1_pidge,2_hunk,3_shiro
+```
+
+Start the chat server:
+
     $ del routes.rb # see lib/del/examples/routes.rb for an example
 
 ## Development
