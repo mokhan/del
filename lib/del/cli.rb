@@ -22,7 +22,10 @@ module Del
       socket = UNIXSocket.new(options[:socket_file])
       socket.puts(JSON.generate(command: :send_message, jid: jid, message: message))
       say socket.readline, :green
-      socket.close
+    rescue EOFError => error
+      say error.message, :red
+    ensure
+      socket&.close
     end
   end
 end
