@@ -17,7 +17,7 @@ module Del
       @host = ENV.fetch("DEL_HOST", 'chat.hipchat.com')
       @jid = ENV.fetch("DEL_JID")
       @logger = Logger.new(STDOUT)
-      @logger.level = Logger::INFO
+      @logger.level = ENV.fetch('LOG_LEVEL', Logger::INFO).to_i
       @muc_domain = ENV.fetch("DEL_MUC_DOMAIN", "conf.hipchat.com")
       @name = ENV.fetch("DEL_FULL_NAME")
       @password = ENV.fetch("DEL_PASSWORD")

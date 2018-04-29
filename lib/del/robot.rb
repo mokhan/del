@@ -14,10 +14,10 @@ module Del
       @server = SocketServer.new
     end
 
-    def get_funky!
+    def get_funky!(start_server: true)
       Del.logger.info("It's fire! 🔥")
       connection.connect(self)
-      server.run(self)
+      server.run(self) if start_server
     rescue Interrupt
       connection.disconnect
     end
@@ -27,12 +27,18 @@ module Del
       router.route(Message.new(message, robot: self, source: source))
     end
 
-    def send_message(jid, message, room: nil)
-      if room.nil?
+    def send_message(jid, message)
+      if user?(jid)
         connection.deliver(jid, message)
       else
-        connection.deliver_to_room(room, message)
+        connection.deliver_to_room(jid, message)
       end
+    end
+
+    private
+
+    def user?(jid)
+      users[jid]
     end
   end
 end

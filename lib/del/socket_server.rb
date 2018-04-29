@@ -7,7 +7,9 @@ module Del
     def run(robot)
       loop do
         @connection.on_receive do |socket|
-          Del.logger.info(socket.readline)
+          line = socket.readline
+          Del.logger.debug(line)
+          robot.process(line)
         end
       end
     end

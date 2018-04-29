@@ -10,4 +10,8 @@ Del.configure do |config|
     Del.logger.info("COWSAY!")
     message.reply("/code #{`cowsay #{match_data[1]}`}")
   end
+
+  config.router.register(/^[Hh]ello/) do |message|
+    message.reply("Hi!")
+  end
 end

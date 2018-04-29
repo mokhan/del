@@ -11,4 +11,8 @@ require "del"
 # Pry.start
 
 require "irb"
+Del.start(
+  dotenv_file: Pathname.new(Dir.home).join(".delrc"),
+  start_server: false,
+)
 IRB.start(__FILE__)

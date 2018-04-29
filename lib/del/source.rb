@@ -12,7 +12,7 @@ module Del
     end
 
     def reply(robot, message)
-      robot.send_message(user.jid, message, room: room)
+      robot.send_message(room || user.jid, message)
     end
 
     def to_s

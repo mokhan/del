@@ -19,7 +19,7 @@ require "del/user"
 require "del/version"
 
 module Del
-  def self.start(dotenv_file:, startup_file:)
+  def self.start(dotenv_file:, startup_file: nil, start_server: true)
     puts "Loading... #{dotenv_file}"
     Dotenv.load(dotenv_file.to_s)
     Del.configure do |config|
@@ -30,7 +30,7 @@ module Del
     load startup_file if startup_file && File.exist?(startup_file)
 
     del = Robot.new(configuration: configuration)
-    del.get_funky!
+    del.get_funky!(start_server: start_server)
   end
 
   def self.configure
