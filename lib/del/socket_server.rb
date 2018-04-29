@@ -9,8 +9,9 @@ module Del
         @connection.on_receive do |socket|
           line = socket.readline
           Del.logger.debug(line)
-          jid, message = line.split('::')
-          robot.send_message(jid, message)
+          json = JSON.parse(line)
+          jid = json['jid']
+          robot.send_message(jid, json['message'])
         end
       end
     end

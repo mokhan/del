@@ -1,10 +1,11 @@
 require "dotenv"
+require "json"
 require "logger"
+require "socket"
 require "xmpp4r"
 require "xmpp4r/muc/helper/mucbrowser"
 require "xmpp4r/muc/helper/simplemucclient"
 require "xmpp4r/roster/helper/roster"
-require "socket"
 
 require "del/configuration"
 require "del/connection"
