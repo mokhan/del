@@ -11,7 +11,7 @@ module Del
       @router = configuration.router
       @users = configuration.users
       @rooms = configuration.rooms
-      @server = SocketServer.new
+      @server = SocketServer.new(socket_file: configuration.socket_file)
     end
 
     def get_funky!(start_server: true)

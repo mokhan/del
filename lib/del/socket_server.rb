@@ -1,7 +1,7 @@
 module Del
   class SocketServer
-    def initialize(connection = SocketConnection.new)
-      @connection = connection
+    def initialize(socket_file:)
+      @connection = SocketConnection.new(path: socket_file)
     end
 
     def run(robot)

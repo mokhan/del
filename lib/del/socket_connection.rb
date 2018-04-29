@@ -1,6 +1,6 @@
 module Del
   class SocketConnection
-    def initialize(path: '/tmp/del.sock')
+    def initialize(path:)
       File.unlink(path) if File.exists?(path)
       @server = UNIXServer.new(path)
     end

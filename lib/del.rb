@@ -20,10 +20,11 @@ require "del/user"
 require "del/version"
 
 module Del
-  def self.start(dotenv_file:, startup_file: nil, start_server: true)
+  def self.start(dotenv_file:, startup_file: nil, start_server: true, socket_file: nil)
     puts "Loading... #{dotenv_file}"
     Dotenv.load(dotenv_file.to_s)
     Del.configure do |config|
+      config.socket_file = socket_file if socket_file
       config.router.register(/.*/) do |message|
         logger.debug(message.to_s)
       end

@@ -1,5 +1,6 @@
 module Del
   class Configuration
+    SOCKET_FILE="/tmp/del.sock"
     attr_accessor :default_rooms
     attr_accessor :host
     attr_accessor :jid
@@ -11,6 +12,7 @@ module Del
     attr_accessor :rooms
     attr_accessor :router
     attr_accessor :users
+    attr_accessor :socket_file
 
     def initialize
       @default_rooms = ENV.fetch("DEL_ROOMS", '').split(',')
@@ -23,6 +25,7 @@ module Del
       @password = ENV.fetch("DEL_PASSWORD")
       @rooms = Repository.new
       @router = DefaultRouter.new
+      @socket_file = SOCKET_FILE
       @users = Repository.new
     end
   end
