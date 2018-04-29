@@ -9,7 +9,8 @@ module Del
         @connection.on_receive do |socket|
           line = socket.readline
           Del.logger.debug(line)
-          robot.process(line)
+          jid, message = line.split('::')
+          robot.send_message(jid, message)
         end
       end
     end
