@@ -1,10 +1,5 @@
 #!/usr/bin/env ruby
 
-require "del"
-require "pathname"
+require "del/cli"
 
-startup_file = Pathname.new(ARGV[0]) if ARGV[0]
-Del.start(
-  dotenv_file: ENV.fetch("DELRC", Pathname.new(Dir.home).join(".delrc")),
-  startup_file: startup_file,
-)
+Del::CLI.start(ARGV)
