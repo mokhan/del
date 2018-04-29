@@ -35,7 +35,24 @@ DEL_ROOMS=1_pidge,2_hunk,3_shiro
 
 Start the chat server:
 
-    $ del routes.rb # see lib/del/examples/routes.rb for an example
+    $ del server
+
+Start the server with a file containing custom chat routes:
+
+    $ del server lib/del/examples/routes.rb
+
+Start the server with a remote file:
+
+    $ del server https://gist.githubusercontent.com/mokhan/15882e15908273f7880eaeaa336d12d9/raw/a54db41e7824315b63b3e4e88df5c2f74ce27e30/routes.rb
+
+Once the server is started, you may use the client to send messages
+through it.
+
+    $ del message 1_79@chat.btf.hipchat.com "Hello, World!"
+
+See the help for additional information:
+
+    $ del help
 
 ## Development
 

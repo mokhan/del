@@ -30,5 +30,10 @@ module Del
     ensure
       socket&.close
     end
+
+    desc "version", "Print the version of this gem"
+    def version
+      say Del::VERSION, :green
+    end
   end
 end
