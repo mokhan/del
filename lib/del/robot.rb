@@ -35,6 +35,16 @@ module Del
       end
     end
 
+    def execute(request)
+      case request['command']
+      when 'send_message'
+        send_message(request['jid'], request['message'])
+        "Sent!"
+      else
+        "Unknown"
+      end
+    end
+
     private
 
     def user?(jid)

@@ -20,7 +20,8 @@ module Del
     desc "message <jid> <message>", "send a message to the Jabber ID"
     def message(jid, message)
       socket = UNIXSocket.new(options[:socket_file])
-      socket.puts(JSON.generate(jid: jid, message: message))
+      socket.puts(JSON.generate(command: :send_message, jid: jid, message: message))
+      say socket.readline, :green
       socket.close
     end
   end

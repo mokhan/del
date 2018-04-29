@@ -8,6 +8,8 @@ module Del
     def on_receive
       socket = @server.accept
       yield socket
+    rescue => error
+      Del.logger.error(error)
     ensure
       socket&.close
     end
