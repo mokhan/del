@@ -16,7 +16,7 @@ module Del
     end
 
     def to_s
-      "#{user.mention_name}:#{room}:"
+      "#{user.mention_name}#{room ? ":#{room}" : nil}"
     end
   end
 end
