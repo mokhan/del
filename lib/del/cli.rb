@@ -24,6 +24,9 @@ module Del
       say socket.readline, :green
     rescue EOFError => error
       say error.message, :red
+    rescue Errno::ECONNREFUSED => error
+      say error.message, :red
+      say "You must start the del server first.", :yellow
     ensure
       socket&.close
     end
