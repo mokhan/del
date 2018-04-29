@@ -28,9 +28,8 @@ module Del
       config.router.register(/.*/) do |message|
         logger.debug(message.to_s)
       end
+      config.load(startup_file)
     end
-    load startup_file if startup_file && File.exist?(startup_file)
-
     del = Robot.new(configuration: configuration)
     del.get_funky!(start_server: start_server)
   end
