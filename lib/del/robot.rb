@@ -1,15 +1,11 @@
 module Del
   class Robot
-    attr_reader :router
-    attr_reader :users, :rooms
     attr_reader :jid, :name
 
-    def initialize(configuration:)
+    def initialize(configuration: Del.configuration)
+      @configuration = configuration
       @jid = configuration.jid
       @name = configuration.name
-      @router = configuration.router
-      @users = configuration.users
-      @rooms = configuration.rooms
     end
 
     def get_funky!(start_server: true)
@@ -22,7 +18,7 @@ module Del
 
     def receive(message, source:)
       return if source.from?(self)
-      router.route(Message.new(message, robot: self, source: source))
+      configuration.router.route(Message.new(message, robot: self, source: source))
     end
 
     def send_message(jid, message)
@@ -45,6 +41,8 @@ module Del
 
     private
 
+    attr_reader :configuration
+
     def xmpp_connection
       @xmpp_connection ||= Connection.new(configuration: configuration)
     end
@@ -54,7 +52,7 @@ module Del
     end
 
     def user?(jid)
-      users[jid]
+      configuration.users[jid]
     end
   end
 end
