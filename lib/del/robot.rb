@@ -1,25 +1,23 @@
 module Del
   class Robot
-    attr_reader :connection, :router, :server
+    attr_reader :router
     attr_reader :users, :rooms
     attr_reader :jid, :name
 
     def initialize(configuration:)
-      @connection = Connection.new(configuration: configuration)
       @jid = configuration.jid
       @name = configuration.name
       @router = configuration.router
       @users = configuration.users
       @rooms = configuration.rooms
-      @server = SocketServer.new(socket_file: configuration.socket_file)
     end
 
     def get_funky!(start_server: true)
       Del.logger.info("It's fire! 🔥")
-      connection.connect(self)
-      server.run(self) if start_server
+      xmpp_connection.connect(self)
+      socket_server.run(self) if start_server
     rescue Interrupt
-      connection.disconnect
+      xmpp_connection.disconnect
     end
 
     def receive(message, source:)
@@ -29,9 +27,9 @@ module Del
 
     def send_message(jid, message)
       if user?(jid)
-        connection.deliver(jid, message)
+        xmpp_connection.deliver(jid, message)
       else
-        connection.deliver_to_room(jid, message)
+        xmpp_connection.deliver_to_room(jid, message)
       end
     end
 
@@ -46,6 +44,14 @@ module Del
     end
 
     private
+
+    def xmpp_connection
+      @xmpp_connection ||= Connection.new(configuration: configuration)
+    end
+
+    def socket_server
+      @socket_server ||= SocketServer.new(socket_file: configuration.socket_file)
+    end
 
     def user?(jid)
       users[jid]
