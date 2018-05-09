@@ -7,7 +7,7 @@ module Del
     DEFAULT_RC=Pathname.new(Dir.home).join(".delrc")
     class_option :configuration_file, default: ENV.fetch("DELRC", DEFAULT_RC)
     class_option :socket_file, default: Del::Configuration::SOCKET_FILE
-    class_option :log_level, default: Logger::INFO
+    class_option :log_level, default: ENV.fetch("LOG_LEVEL", Logger::INFO).to_i
 
     desc "server <routes.rb>", "start server"
     def server(startup_file = nil)
