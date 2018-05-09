@@ -9,7 +9,7 @@ module Del
     end
 
     def get_funky!(start_server: true)
-      Del.logger.info("It's fire! 🔥")
+      Del.logger.info("🔥🔥🔥")
       xmpp_connection.connect(self)
       socket_server.run(self) if start_server
     rescue Interrupt
