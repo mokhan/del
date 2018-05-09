@@ -20,17 +20,14 @@ require "del/user"
 require "del/version"
 
 module Del
-  def self.start(configuration_file:, startup_file: nil, start_server: true, socket_file: nil)
-    puts "Loading... #{configuration_file}"
-    settings = YAML.load(IO.read(configuration_file)).merge(socket_file: socket_file)
+  def self.start(settings)
     @configuration = Configuration.new(settings)
-    @configuration.socket_file = socket_file if socket_file
     @configuration.router.register(/.*/) do |message|
       logger.debug(message.to_s)
     end
-    @configuration.load(startup_file)
+    @configuration.load(settings[:startup_file])
     del = Robot.new(configuration: @configuration)
-    del.get_funky!(start_server: start_server)
+    del.get_funky!(start_server: settings[:start_server])
   end
 
   def self.configure

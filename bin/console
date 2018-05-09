@@ -11,8 +11,8 @@ require "del"
 # Pry.start
 
 require "irb"
-Del.start(
-  dotenv_file: Pathname.new(Dir.home).join(".delrc"),
-  start_server: false,
-)
+
+settings = YAML.load(IO.read(Pathname.new(Dir.home).join(".delrc")))
+settings.merge!(start_server: false)
+Del.start(settings)
 IRB.start(__FILE__)

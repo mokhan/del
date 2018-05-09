@@ -10,11 +10,15 @@ module Del
 
     desc "server <routes.rb>", "start server"
     def server(startup_file = nil)
-      Del.start(
-        configuration_file: options[:configuration_file],
-        socket_file: options[:socket_file],
-        startup_file: startup_file,
-      )
+      settings = YAML.load(IO.read(options[:configuration_file]))
+      settings.merge!(socket_file: options[:socket_file])
+      settings.merge!(startup_file: startup_file)
+      settings.merge!(start_server: true)
+
+      Del.start(settings)
+    rescue Errno::ENOENT => error
+      say error.message, :red
+      say "run 'del setup'", :yellow
     end
 
     desc "message <jid> <message>", "send a message to the Jabber ID"
