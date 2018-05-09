@@ -7,13 +7,15 @@ module Del
     DEFAULT_RC=Pathname.new(Dir.home).join(".delrc")
     class_option :configuration_file, default: ENV.fetch("DELRC", DEFAULT_RC)
     class_option :socket_file, default: Del::Configuration::SOCKET_FILE
+    class_option :log_level, default: Logger::INFO
 
     desc "server <routes.rb>", "start server"
     def server(startup_file = nil)
       settings = YAML.load(IO.read(options[:configuration_file]))
+      settings.merge!(log_level: options[:log_level])
       settings.merge!(socket_file: options[:socket_file])
-      settings.merge!(startup_file: startup_file)
       settings.merge!(start_server: true)
+      settings.merge!(startup_file: startup_file)
 
       Del.start(settings)
     rescue Errno::ENOENT => error
