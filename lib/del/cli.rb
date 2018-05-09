@@ -1,6 +1,7 @@
 require "del"
 require "pathname"
 require "thor"
+require 'yaml'
 
 module Del
   class CLI < Thor
@@ -29,6 +30,22 @@ module Del
       say "You must start the del server first.", :yellow
     ensure
       socket&.close
+    end
+
+    desc "setup", "setup your $HOME/.delrc"
+    def setup
+      configuration = {}
+      configuration[:host] = ask("Where is your xmpp server? (E.g. 'chat.hipchat.com')")
+      configuration[:jid] = ask("What is your jabber Id?")
+      configuration[:muc_domain] = ask("What is your MUC domain? (E.g. 'conf.hipchat.com')")
+      configuration[:full_name] = ask("What is your name?")
+      configuration[:password] = ask("What is your password?", echo: false)
+
+      say ""
+      say "Writing your configuration to: #{DEFAULT_RC}", :green
+      yaml = YAML.dump(configuration)
+      IO.write(DEFAULT_RC, yaml)
+      File.chmod(0600, DEFAULT_RC)
     end
 
     desc "version", "Print the version of this gem"
