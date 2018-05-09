@@ -23,6 +23,21 @@ module Del
       say "run 'del setup'", :yellow
     end
 
+    desc "console <config.rb>", "start read-eval-print-loop"
+    def console(startup_file = nil)
+      require "irb"
+
+      settings = YAML.load(IO.read(options[:configuration_file]))
+      settings.merge!(log_level: options[:log_level])
+      settings.merge!(socket_file: options[:socket_file])
+      settings.merge!(start_server: false)
+      settings.merge!(startup_file: startup_file)
+
+      Del.start(settings)
+      ARGV.clear
+      IRB.start
+    end
+
     desc "message <jid> <message>", "send a message to the Jabber ID"
     def message(jid, message)
       socket = UNIXSocket.new(options[:socket_file])
