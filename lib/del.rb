@@ -26,8 +26,7 @@ module Del
       logger.debug(message.to_s)
     end
     @configuration.load(settings[:startup_file])
-    del = Robot.new(configuration: @configuration)
-    del.get_funky!(start_server: settings[:start_server])
+    bot.get_funky!(start_server: settings[:start_server])
   end
 
   def self.configure
@@ -40,5 +39,9 @@ module Del
 
   def self.logger
     @logger ||= configuration.logger
+  end
+
+  def self.bot
+    @bot ||= Robot.new(configuration: configuration)
   end
 end
