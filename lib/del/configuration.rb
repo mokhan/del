@@ -15,7 +15,7 @@ module Del
     attr_accessor :socket_file
 
     def initialize(settings = {})
-      @default_rooms = settings[:rooms]
+      @default_rooms = settings.fetch(:rooms, [])
       @host = settings.fetch(:host, 'chat.hipchat.com')
       @jid = settings.fetch(:jid)
       @logger = Logger.new(STDOUT)
@@ -25,7 +25,7 @@ module Del
       @password = settings.fetch(:password)
       @rooms = Repository.new
       @router = DefaultRouter.new
-      @socket_file = SOCKET_FILE
+      @socket_file = settings.fetch(:socket_file, SOCKET_FILE)
       @users = Repository.new
     end
 

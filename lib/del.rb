@@ -22,15 +22,14 @@ require "del/version"
 module Del
   def self.start(configuration_file:, startup_file: nil, start_server: true, socket_file: nil)
     puts "Loading... #{configuration_file}"
-    @configuration ||= Configuration.new(YAML.load(IO.read(configuration_file)))
-    Del.configure do |config|
-      config.socket_file = socket_file if socket_file
-      config.router.register(/.*/) do |message|
-        logger.debug(message.to_s)
-      end
-      config.load(startup_file)
+    settings = YAML.load(IO.read(configuration_file)).merge(socket_file: socket_file)
+    @configuration ||= Configuration.new(settings)
+    @configuration.socket_file = socket_file if socket_file
+    @configuration.router.register(/.*/) do |message|
+      logger.debug(message.to_s)
     end
-    del = Robot.new(configuration: configuration)
+    @configuration.load(startup_file)
+    del = Robot.new(configuration: @configuration)
     del.get_funky!(start_server: start_server)
   end
 
