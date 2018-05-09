@@ -1,4 +1,3 @@
-require "dotenv"
 require "json"
 require "logger"
 require "socket"
@@ -6,6 +5,7 @@ require "xmpp4r"
 require "xmpp4r/muc/helper/mucbrowser"
 require "xmpp4r/muc/helper/simplemucclient"
 require "xmpp4r/roster/helper/roster"
+require "yaml"
 
 require "del/configuration"
 require "del/connection"
@@ -20,9 +20,9 @@ require "del/user"
 require "del/version"
 
 module Del
-  def self.start(dotenv_file:, startup_file: nil, start_server: true, socket_file: nil)
-    puts "Loading... #{dotenv_file}"
-    Dotenv.load(dotenv_file.to_s)
+  def self.start(configuration_file:, startup_file: nil, start_server: true, socket_file: nil)
+    puts "Loading... #{configuration_file}"
+    @configuration ||= Configuration.new(YAML.load(IO.read(configuration_file)))
     Del.configure do |config|
       config.socket_file = socket_file if socket_file
       config.router.register(/.*/) do |message|
@@ -39,7 +39,7 @@ module Del
   end
 
   def self.configuration
-    @configuration ||= Configuration.new
+    @configuration ||= Configuration.new({})
   end
 
   def self.logger

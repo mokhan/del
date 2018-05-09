@@ -14,15 +14,15 @@ module Del
     attr_accessor :users
     attr_accessor :socket_file
 
-    def initialize
-      @default_rooms = ENV.fetch("DEL_ROOMS", '').split(',')
-      @host = ENV.fetch("DEL_HOST", 'chat.hipchat.com')
-      @jid = ENV.fetch("DEL_JID")
+    def initialize(settings = {})
+      @default_rooms = settings[:rooms]
+      @host = settings.fetch(:host, 'chat.hipchat.com')
+      @jid = settings.fetch(:jid)
       @logger = Logger.new(STDOUT)
-      @logger.level = ENV.fetch('LOG_LEVEL', Logger::INFO).to_i
-      @muc_domain = ENV.fetch("DEL_MUC_DOMAIN", "conf.hipchat.com")
-      @name = ENV.fetch("DEL_FULL_NAME")
-      @password = ENV.fetch("DEL_PASSWORD")
+      @logger.level = settings.fetch(:log_level, Logger::INFO).to_i
+      @muc_domain = settings.fetch(:muc_domain, "conf.hipchat.com")
+      @name = settings.fetch(:full_name)
+      @password = settings.fetch(:password)
       @rooms = Repository.new
       @router = DefaultRouter.new
       @socket_file = SOCKET_FILE
