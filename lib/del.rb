@@ -23,7 +23,7 @@ module Del
   def self.start(configuration_file:, startup_file: nil, start_server: true, socket_file: nil)
     puts "Loading... #{configuration_file}"
     settings = YAML.load(IO.read(configuration_file)).merge(socket_file: socket_file)
-    @configuration ||= Configuration.new(settings)
+    @configuration = Configuration.new(settings)
     @configuration.socket_file = socket_file if socket_file
     @configuration.router.register(/.*/) do |message|
       logger.debug(message.to_s)
