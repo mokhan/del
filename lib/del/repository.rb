@@ -10,11 +10,7 @@ module Del
     end
 
     def find_by(id)
-      @lock.synchronize { @storage[id.to_s] }
-    end
-
-    def find_by_value
-      @lock.synchronize { @storage.values.find { |x| yield x } }
+      @lock.synchronize { Del::User.new(id, @storage[id.to_s]) }
     end
 
     def find_all
