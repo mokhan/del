@@ -33,12 +33,13 @@ module Del
 
     desc "setup", "setup your $HOME/.delrc"
     def setup
-      settings = {}
-      settings[:host] = ask("Where is your xmpp server? (E.g. 'chat.hipchat.com')")
-      settings[:jid] = ask("What is your jabber Id?")
-      settings[:muc_domain] = ask("What is your MUC domain? (E.g. 'conf.hipchat.com')")
-      settings[:full_name] = ask("What is your name?")
-      settings[:password] = ask("What is your password?", echo: false)
+      settings = {
+        host: ask("Where is your xmpp server? (E.g. 'chat.hipchat.com')"),
+        jid: ask("What is your jabber Id?"),
+        muc_domain: ask("What is your MUC domain? (E.g. 'conf.hipchat.com')"),
+        full_name: ask("What is your name?"),
+        password: ask("What is your password?", echo: false),
+      }
 
       say ""
       say "Writing your configuration to: #{options[:configuration_file]}", :green
