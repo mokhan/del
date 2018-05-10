@@ -9,7 +9,6 @@ module Del
     attr_accessor :muc_domain
     attr_accessor :name
     attr_accessor :password
-    attr_accessor :rooms
     attr_accessor :router
     attr_accessor :users
     attr_accessor :socket_file
@@ -23,7 +22,6 @@ module Del
       @muc_domain = settings.fetch(:muc_domain, "conf.hipchat.com")
       @name = settings.fetch(:full_name)
       @password = settings.fetch(:password)
-      @rooms = Repository.new
       @router = DefaultRouter.new
       @socket_file = settings.fetch(:socket_file, SOCKET_FILE)
       @users = Repository.new

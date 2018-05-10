@@ -10,5 +10,9 @@ module Del
     def mention_name
       attributes[:mention_name]
     end
+
+    def to_s
+      YAML.dump(attributes)
+    end
   end
 end

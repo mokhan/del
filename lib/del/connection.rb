@@ -1,11 +1,9 @@
 module Del
   class Connection
-    attr_reader :configuration, :rooms, :users
+    attr_reader :configuration
 
     def initialize(configuration:)
       @configuration = configuration
-      @rooms = configuration.rooms
-      @users = configuration.users
       @mucs = {}
     end
 
@@ -19,7 +17,7 @@ module Del
       client.auth(configuration.password)
       roster = Jabber::Roster::Helper.new(client, false)
       roster.add_update_callback do |old_item, item|
-        users.upsert(item['jid'], item.attributes) if item
+        configuration.users.upsert(item['jid'], item.attributes) if item
       end
       roster.get_roster
       roster.wait_for_roster
@@ -44,9 +42,9 @@ module Del
         end
         muc.join(room_jid)
       end
-      list_rooms(configuration.muc_domain).each do |room|
-        rooms.upsert(room)
-      end
+      #list_rooms(configuration.muc_domain).each do |room|
+        #rooms.upsert(room)
+      #end
     end
 
     def deliver(jid, message)
@@ -77,11 +75,11 @@ module Del
       @jid ||= jid_for(configuration.jid, "chat.hipchat.com", "bot")
     end
 
-    def list_rooms(muc_domain)
-      Jabber::MUC::MUCBrowser.new(client).muc_rooms(muc_domain).map do |jid, name|
-        jid.to_s
-      end
-    end
+    #def list_rooms(muc_domain)
+      #Jabber::MUC::MUCBrowser.new(client).muc_rooms(muc_domain).map do |jid, name|
+        #jid.to_s
+      #end
+    #end
 
     def encode_string(s)
       s.to_s.encode("UTF-8", invalid: :replace, undef: :replace)
