@@ -15,16 +15,22 @@ module Del
 
     def execute_shell(command)
       command = Array(command).flatten.join(' ')
-      reply("Okay, I will run #{command}.")
+      reply("Okay, I will run '#{command}'.")
       success = false
       Open3.popen3(command) do |stdin, stdout, stderr, wait_thr|
         stdout.each_line do |line|
-          yield line if block_given?
-          reply("#{PREFIX} #{line}")
+          if block_given?
+            yield line
+          else
+            reply("#{PREFIX} #{line}")
+          end
         end
         stderr.each_line do |line|
-          yield line if block_given?
-          reply("#{PREFIX} #{line}")
+          if block_given?
+            yield line
+          else
+            reply("#{PREFIX} #{line}")
+          end
         end
         success = wait_thr.value.success?
       end
