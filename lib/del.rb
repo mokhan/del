@@ -1,5 +1,6 @@
 require "json"
 require "logger"
+require "open3"
 require "socket"
 require "xmpp4r"
 require "xmpp4r/muc/helper/mucbrowser"
