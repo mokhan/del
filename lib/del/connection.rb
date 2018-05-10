@@ -84,7 +84,7 @@ module Del
     end
 
     def encode_string(s)
-      s.encode("UTF-8", invalid: :replace, undef: :replace)
+      s.to_s.encode("UTF-8", invalid: :replace, undef: :replace)
     end
 
     def jid_for(jid, domain, resource)
