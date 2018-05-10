@@ -8,7 +8,7 @@ module Del
     end
 
     def from?(robot)
-      user.attributes.jid == robot.jid.to_s
+      user.jid == robot.jid.to_s
     end
 
     def reply(robot, message)
