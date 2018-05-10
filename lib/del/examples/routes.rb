@@ -8,7 +8,7 @@ Del.configure do |x|
 
   x.router.register(/^cowsay (.*)/) do |message, match_data|
     Del.logger.info("COWSAY!")
-    message.reply("/code #{`cowsay #{match_data[1]}`}")
+    message.execute_shell(['cowsay', match_data[1]])
   end
 
   x.router.register(/^[Hh]ello/) do |message|
