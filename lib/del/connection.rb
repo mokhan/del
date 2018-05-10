@@ -28,7 +28,7 @@ module Del
       end
       client.send(Jabber::Presence.new(:chat))
       configuration.default_rooms.each do |room|
-        Del.logger.debug("Joining #{room} as #{robot.name}")
+        Del.logger.debug("Joining room '#{room}' as '#{robot.name}'")
         room_jid = jid_for(room, configuration.muc_domain.dup, robot.name)
         stripped_jid = room_jid.strip.to_s
         next if @mucs[stripped_jid]
