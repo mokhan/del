@@ -21,7 +21,9 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
+  spec.add_dependency "bundler-audit", "~> 0.6"
   spec.add_dependency "net-hippie", "~> 0.1"
+  spec.add_dependency "rubocop", "~> 0.55"
   spec.add_dependency "thor", "~> 0.20"
   spec.add_dependency "xmpp4r", "~> 0.5"
   spec.add_development_dependency "bundler", "~> 1.16"
