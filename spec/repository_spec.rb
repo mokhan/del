@@ -20,7 +20,7 @@ RSpec.describe Del::Repository do
     specify { expect(subject.find(SecureRandom.uuid)).to be_nil }
   end
 
-  describe "#find_all" do
+  describe "#all" do
     let(:del_attributes) { { name: 'Teren Delvon Jones' } }
     let(:ice_cube_attributes) { { name: "O'Shea Jackson Sr." } }
     let(:del) { instance_double(Del::User) }
@@ -32,7 +32,7 @@ RSpec.describe Del::Repository do
       allow(mapper).to receive(:map_from).with(del_attributes).and_return(del)
       allow(mapper).to receive(:map_from).with(ice_cube_attributes).and_return(cube)
 
-      expect(subject.find_all).to match_array([ del, cube ])
+      expect(subject.all).to match_array([ del, cube ])
     end
   end
 end

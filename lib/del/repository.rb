@@ -16,7 +16,7 @@ module Del
       end
     end
 
-    def find_all
+    def all
       @lock.synchronize do
         @storage.map do |(_, value)|
           @mapper.map_from(value)
