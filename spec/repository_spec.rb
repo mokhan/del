@@ -6,23 +6,23 @@ RSpec.describe Del::Repository do
   let(:mapper) { double(:mapper, map_from: nil) }
 
   describe "#[]" do
-    let(:id) { SecureRandom.uuid }
-    let(:attributes) { { id: id, name: 'Teren Delvon Jones' } }
+    let(:jid) { SecureRandom.uuid }
+    let(:attributes) { { 'jid' => jid, 'name' => 'Teren Delvon Jones' } }
     let(:user) { instance_double(Del::User) }
 
     before do
-      subject.upsert(id, attributes)
+      subject.upsert(jid, attributes)
       allow(mapper).to receive(:map_from).with(attributes).and_return(user)
     end
 
-    specify { expect(subject[id]).to eql(user) }
-    specify { expect(subject.find(id)).to eql(user) }
+    specify { expect(subject[jid]).to eql(user) }
+    specify { expect(subject.find(jid)).to eql(user) }
     specify { expect(subject.find(SecureRandom.uuid)).to be_nil }
   end
 
   describe "#all" do
-    let(:del_attributes) { { name: 'Teren Delvon Jones' } }
-    let(:ice_cube_attributes) { { name: "O'Shea Jackson Sr." } }
+    let(:del_attributes) { { 'name' => 'Teren Delvon Jones' } }
+    let(:ice_cube_attributes) { { 'name' => "O'Shea Jackson Sr." } }
     let(:del) { instance_double(Del::User) }
     let(:cube) { instance_double(Del::User) }
 

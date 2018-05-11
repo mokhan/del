@@ -16,7 +16,7 @@ module Del
     end
 
     def self.map_from(attributes)
-      new(attributes[:id], attributes)
+      new(attributes['jid'], attributes)
     end
   end
 end

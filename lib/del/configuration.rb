@@ -24,7 +24,7 @@ module Del
       @password = settings.fetch(:password)
       @router = DefaultRouter.new
       @socket_file = settings.fetch(:socket_file, SOCKET_FILE)
-      @users = Repository.new
+      @users = Repository.new(mapper: User)
     end
 
     def load(file)
