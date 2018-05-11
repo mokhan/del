@@ -1,17 +1,18 @@
 module Del
   class Repository
-    def initialize(storage = {})
+    def initialize(storage: {}, mapper:)
       @storage = storage
+      @mapper = mapper
       @lock = Mutex.new
     end
 
     def [](id)
-      find_by(id)
+      find(id)
     end
 
-    def find_by(id)
+    def find(id)
       @lock.synchronize do
-        Del::User.new(id, @storage[id.to_s])
+        @mapper.map_from(@storage[id.to_s])
       end
     end
 
@@ -20,7 +21,6 @@ module Del
     end
 
     def upsert(id, attributes = {})
-      Del.logger.debug([id, attributes].inspect)
       @lock.synchronize do
         @storage[id.to_s] = attributes
       end
