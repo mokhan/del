@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 module Del
+  # An XMPP Connection
   class Connection
     attr_reader :configuration
 
@@ -55,7 +58,7 @@ module Del
 
     def deliver_to_room(jid, message)
       muc = @mucs[jid.strip.to_s]
-      muc.say(encode_string(message)) if muc
+      muc&.say(encode_string(message))
     end
 
     def disconnect
@@ -75,14 +78,15 @@ module Del
       @jid ||= jid_for(configuration.jid, 'chat.hipchat.com', 'bot')
     end
 
-    # def list_rooms(muc_domain)
-    # Jabber::MUC::MUCBrowser.new(client).muc_rooms(muc_domain).map do |jid, name|
-    # jid.to_s
-    # end
-    # end
+    def list_rooms(muc_domain)
+      browser = Jabber::MUC::MUCBrowser.new(client)
+      browser.muc_rooms(muc_domain).map do |jid, _name|
+        jid.to_s
+      end
+    end
 
-    def encode_string(s)
-      s.to_s.encode('UTF-8', invalid: :replace, undef: :replace)
+    def encode_string(item)
+      item.to_s.encode('UTF-8', invalid: :replace, undef: :replace)
     end
 
     def jid_for(jid, domain, resource)

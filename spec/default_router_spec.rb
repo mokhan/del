@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Del::DefaultRouter do
   subject { described_class.new }
 

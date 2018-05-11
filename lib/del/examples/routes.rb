@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Del.configure do |x|
   puts 'Registering custom routes.'
 

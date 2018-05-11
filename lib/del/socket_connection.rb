@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 module Del
   class SocketConnection
     def initialize(path:)
-      File.unlink(path) if File.exists?(path)
+      File.unlink(path) if File.exist?(path)
       @server = UNIXServer.new(path)
     end
 
     def on_receive
       socket = @server.accept
       yield socket
-    rescue => error
+    rescue StandardError => error
       Del.logger.error(error)
     ensure
       socket&.close

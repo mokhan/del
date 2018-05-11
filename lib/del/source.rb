@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 module Del
+  # This represents the source of a chat message.
   class Source
     attr_reader :user, :room
 

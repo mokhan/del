@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
 module Del
+  # Executes shell commands and pipes the
+  # results back to the caller.
   class ShellCommand
     def initialize(command)
       @command = Array(command).flatten.join(' ')

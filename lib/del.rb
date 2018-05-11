@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'json'
 require 'logger'
 require 'net/hippie'
@@ -22,6 +24,7 @@ require 'del/source'
 require 'del/user'
 require 'del/version'
 
+# Del the funky robosapien.
 module Del
   def self.start(settings)
     @configuration = Configuration.new(settings)

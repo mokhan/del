@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 module Del
+  # An XMPP user.
   class User
     attr_reader :jid, :attributes
 

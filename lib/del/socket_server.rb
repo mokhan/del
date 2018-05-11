@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
 module Del
+  # A Socket server for client/server communication
+  # overs a UNIX socket.
   class SocketServer
     def initialize(socket_file:)
       @connection = SocketConnection.new(path: socket_file)

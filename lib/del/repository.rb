@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 module Del
+  # This class is a facade for backend data storage.
   class Repository
     def initialize(storage: {}, mapper:)
       @storage = storage

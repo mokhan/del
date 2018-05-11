@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 module Del
+  # A funky robo-sapien.
   class Robot
     attr_reader :jid, :name
 
@@ -18,7 +21,9 @@ module Del
 
     def receive(message, source:)
       return if source.from?(self)
-      configuration.router.route(Message.new(message, robot: self, source: source))
+      configuration.router.route(
+        Message.new(message, robot: self, source: source)
+      )
     end
 
     def send_message(jid, message)
@@ -48,7 +53,8 @@ module Del
     end
 
     def socket_server
-      @socket_server ||= SocketServer.new(socket_file: configuration.socket_file)
+      @socket_server ||=
+        SocketServer.new(socket_file: configuration.socket_file)
     end
 
     def user?(jid)

@@ -1,17 +1,19 @@
+# frozen_string_literal: true
+
 module Del
+  # This is used to contain all configuration.
   class Configuration
-    SOCKET_FILE = '/tmp/del.sock'.freeze
+    SOCKET_FILE = '/tmp/del.sock'
     attr_accessor :default_rooms
     attr_accessor :host
-    attr_accessor :jid
     attr_accessor :jid
     attr_accessor :logger
     attr_accessor :muc_domain
     attr_accessor :name
     attr_accessor :password
     attr_accessor :router
-    attr_accessor :users
     attr_accessor :socket_file
+    attr_accessor :users
 
     def initialize(settings = {})
       @default_rooms = settings.fetch(:rooms, [])

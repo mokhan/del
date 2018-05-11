@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 module Del
+  # An XMPP Message
   class Message
-    PREFIX = '/code'.freeze
+    PREFIX = '/code'
     attr_reader :text, :robot, :source
 
     def initialize(text, robot:, source:)
