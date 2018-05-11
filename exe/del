@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require "del/cli"
+require 'del/cli'
 
 Del::CLI.start(ARGV)

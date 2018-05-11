@@ -1,6 +1,6 @@
 module Del
   class Configuration
-    SOCKET_FILE="/tmp/del.sock"
+    SOCKET_FILE = '/tmp/del.sock'.freeze
     attr_accessor :default_rooms
     attr_accessor :host
     attr_accessor :jid
@@ -19,7 +19,7 @@ module Del
       @jid = settings.fetch(:jid)
       @logger = Logger.new(STDOUT)
       @logger.level = settings.fetch(:log_level, Logger::INFO).to_i
-      @muc_domain = settings.fetch(:muc_domain, "conf.hipchat.com")
+      @muc_domain = settings.fetch(:muc_domain, 'conf.hipchat.com')
       @name = settings.fetch(:full_name)
       @password = settings.fetch(:password)
       @router = DefaultRouter.new

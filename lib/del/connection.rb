@@ -8,7 +8,7 @@ module Del
     end
 
     def connect(robot)
-      client.on_exception do |error, connection, error_source|
+      client.on_exception do |error, _connection, _error_source|
         Del.logger.error(error)
         disconnect
       end
@@ -16,7 +16,7 @@ module Del
       sleep 0.0001 until client.is_connected?
       client.auth(configuration.password)
       roster = Jabber::Roster::Helper.new(client, false)
-      roster.add_update_callback do |old_item, item|
+      roster.add_update_callback do |_old_item, item|
         configuration.users.upsert(item['jid'], item.attributes) if item
       end
       roster.get_roster
@@ -37,14 +37,14 @@ module Del
         @mucs[stripped_jid] = muc
         muc.on_message do |_, nickname, message|
           Del.logger.debug([nickname, message].inspect)
-          other_jid = roster.items.find { |jid, item| item.iname == nickname }
+          other_jid = roster.items.find { |_jid, item| item.iname == nickname }
           robot.receive(message, source: Source.new(user: User.new(other_jid[0], other_jid[1]), room: stripped_jid))
         end
         muc.join(room_jid)
       end
-      #list_rooms(configuration.muc_domain).each do |room|
-        #rooms.upsert(room)
-      #end
+      # list_rooms(configuration.muc_domain).each do |room|
+      # rooms.upsert(room)
+      # end
     end
 
     def deliver(jid, message)
@@ -59,7 +59,7 @@ module Del
     end
 
     def disconnect
-      Del.logger.info("byte me!")
+      Del.logger.info('byte me!')
       client.close
     rescue IOError, SystemCallError => error
       Del.logger.error(error)
@@ -72,17 +72,17 @@ module Del
     end
 
     def jid
-      @jid ||= jid_for(configuration.jid, "chat.hipchat.com", "bot")
+      @jid ||= jid_for(configuration.jid, 'chat.hipchat.com', 'bot')
     end
 
-    #def list_rooms(muc_domain)
-      #Jabber::MUC::MUCBrowser.new(client).muc_rooms(muc_domain).map do |jid, name|
-        #jid.to_s
-      #end
-    #end
+    # def list_rooms(muc_domain)
+    # Jabber::MUC::MUCBrowser.new(client).muc_rooms(muc_domain).map do |jid, name|
+    # jid.to_s
+    # end
+    # end
 
     def encode_string(s)
-      s.to_s.encode("UTF-8", invalid: :replace, undef: :replace)
+      s.to_s.encode('UTF-8', invalid: :replace, undef: :replace)
     end
 
     def jid_for(jid, domain, resource)

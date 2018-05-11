@@ -1,7 +1,7 @@
 RSpec.describe Del::DefaultRouter do
   subject { described_class.new }
 
-  describe "#route" do
+  describe '#route' do
     let(:recorder) { [] }
     before :each do
       subject.register(/^Hello World!$/) do |message|
@@ -24,8 +24,8 @@ RSpec.describe Del::DefaultRouter do
     end
 
     it 'passes captures to the block' do
-      subject.route(double(text: "cowsay HELLO"))
-      matches = /^cowsay (.*)$/.match("cowsay HELLO")
+      subject.route(double(text: 'cowsay HELLO'))
+      matches = /^cowsay (.*)$/.match('cowsay HELLO')
       expect(recorder).to match_array([text: 'cowsay HELLO', match_data: matches])
     end
   end

@@ -9,7 +9,7 @@ module Del
     end
 
     def get_funky!(start_server: true)
-      Del.logger.info("🔥🔥🔥")
+      Del.logger.info('🔥🔥🔥')
       xmpp_connection.connect(self)
       socket_server.run(self) if start_server
     rescue Interrupt
@@ -33,9 +33,9 @@ module Del
       case request['command']
       when 'send_message'
         send_message(request['jid'], request['message'])
-        "Sent!"
+        'Sent!'
       else
-        "Unknown"
+        'Unknown'
       end
     end
 

@@ -10,12 +10,11 @@ module Del
 
     def route(message)
       @routes.each do |route|
-        if matches = route[:pattern].match(message.text)
-          begin
-            route[:command].call(message, matches)
-          rescue StandardError => error
-            Del.logger.error(error)
-          end
+        next unless matches = route[:pattern].match(message.text)
+        begin
+          route[:command].call(message, matches)
+        rescue StandardError => error
+          Del.logger.error(error)
         end
       end
     end

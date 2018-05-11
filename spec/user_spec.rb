@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe Del::User do
-  describe ".map_from" do
+  describe '.map_from' do
     subject { described_class }
     let(:attributes) { { 'jid' => SecureRandom.uuid } }
 

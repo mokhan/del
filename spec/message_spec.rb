@@ -6,7 +6,7 @@ RSpec.describe Del::Message do
   let(:source) { instance_double(Del::Source) }
   let(:text) { SecureRandom.hex(16) }
 
-  describe "#reply" do
+  describe '#reply' do
     before { allow(source).to receive(:reply) }
 
     it 'delegates to the source to reply' do
@@ -15,7 +15,7 @@ RSpec.describe Del::Message do
     end
   end
 
-  describe "#execute_shell" do
+  describe '#execute_shell' do
     before { allow(source).to receive(:reply) }
 
     it 'executes the command' do
@@ -24,17 +24,17 @@ RSpec.describe Del::Message do
     end
 
     it 'returns false when the shell command fails' do
-      expect(subject.execute_shell(['exit', '1'])).to be_falsey
+      expect(subject.execute_shell(%w[exit 1])).to be_falsey
     end
 
     it 'replies with the stdout content' do
-      subject.execute_shell(['echo', 'hello'])
+      subject.execute_shell(%w[echo hello])
       expect(source).to have_received(:reply).with(robot, "/code hello\n")
     end
 
     it 'yields each line to stdout' do
       @called = false
-      subject.execute_shell(['echo', 'hello']) do |line|
+      subject.execute_shell(%w[echo hello]) do |line|
         @called = true
         expect(line).to eql("hello\n")
       end
@@ -56,7 +56,7 @@ RSpec.describe Del::Message do
     end
   end
 
-  describe "#to_s" do
+  describe '#to_s' do
     specify { expect(subject.to_s).to include(source.to_s) }
     specify { expect(subject.to_s).to include(text) }
   end

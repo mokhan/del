@@ -1,6 +1,6 @@
 module Del
   class Message
-    PREFIX = "/code"
+    PREFIX = '/code'.freeze
     attr_reader :text, :robot, :source
 
     def initialize(text, robot:, source:)

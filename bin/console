@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
-require "bundler/setup"
-require "del"
+require 'bundler/setup'
+require 'del'
 
 # You can add fixtures and/or initialization code here to make experimenting
 # with your gem easier. You can also use a different console, if you like.
@@ -10,9 +10,9 @@ require "del"
 # require "pry"
 # Pry.start
 
-require "irb"
+require 'irb'
 
-settings = YAML.load(IO.read(Pathname.new(Dir.home).join(".delrc")))
-settings.merge!(start_server: false)
+settings = YAML.safe_load(IO.read(Pathname.new(Dir.home).join('.delrc')))
+settings[:start_server] = false
 Del.start(settings)
 IRB.start(__FILE__)
