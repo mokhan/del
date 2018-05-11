@@ -1,5 +1,6 @@
 require "json"
 require "logger"
+require "net/hippie"
 require "open3"
 require "socket"
 require "xmpp4r"

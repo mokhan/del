@@ -14,8 +14,7 @@ module Del
     end
 
     def execute_shell(command)
-      command = Array(command).flatten.join(' ')
-      reply("Okay, I will run '#{command}'.")
+      reply("Okay, I'm on it!")
       ShellCommand.new(command).run do |line|
         if block_given?
           yield line

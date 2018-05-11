@@ -30,22 +30,8 @@ module Del
     def load(file)
       return if file.nil?
       return Kernel.load(file) if File.exist?(file)
-
-      eval(remote_fetch(file), binding)
-    end
-
-    private
-
-    def remote_fetch(url)
-      require 'uri'
-      require 'net/http'
-
-      uri = URI.parse(url)
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = uri.is_a?(URI::HTTPS)
-      response = http.request(Net::HTTP::Get.new(uri.request_uri))
-      Del.logger.info("Loading...\n#{response.body}")
-      response.body
+      Net::Hippie.logger = logger
+      eval(Net::Hippie::Api.new(file).get, binding)
     end
   end
 end
