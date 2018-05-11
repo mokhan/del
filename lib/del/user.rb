@@ -14,5 +14,9 @@ module Del
     def to_s
       YAML.dump(attributes)
     end
+
+    def self.map_from(attributes)
+      new(attributes[:id], attributes)
+    end
   end
 end
