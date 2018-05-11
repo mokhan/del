@@ -17,7 +17,11 @@ module Del
     end
 
     def find_all
-      @lock.synchronize { @storage.keys }
+      @lock.synchronize do
+        @storage.map do |(_, value)|
+          @mapper.map_from(value)
+        end
+      end
     end
 
     def upsert(id, attributes = {})
