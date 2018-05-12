@@ -13,13 +13,7 @@ module Del
 
     desc 'server <routes.rb>', 'start server'
     def server(startup_file = nil)
-      settings = YAML.safe_load(IO.read(options[:configuration_file]), symbolize_names: true)
-      settings[:log_level] = options[:log_level]
-      settings[:socket_file] = options[:socket_file]
-      settings[:start_server] = true
-      settings[:startup_file] = startup_file
-
-      Del.start(settings)
+      Del.start(load_settings(start_server: true, startup_file: startup_file))
     rescue Errno::ENOENT => error
       say error.message, :red
       say "run 'del setup'", :yellow
@@ -29,15 +23,12 @@ module Del
     def console(startup_file = nil)
       require 'irb'
 
-      settings = YAML.safe_load(IO.read(options[:configuration_file]), symbolize_names: true)
-      settings[:log_level] = options[:log_level]
-      settings[:socket_file] = options[:socket_file]
-      settings[:start_server] = false
-      settings[:startup_file] = startup_file
-
-      Del.start(settings)
+      Del.start(load_settings(start_server: false, startup_file: startup_file))
       ARGV.clear
       IRB.start
+    rescue Errno::ENOENT => error
+      say error.message, :red
+      say "run 'del setup'", :yellow
     end
 
     desc 'message <jid> <message>', 'send a message to the Jabber ID'
@@ -70,6 +61,16 @@ module Del
         'full_name' => ask('Name:'),
         'password' => ask('Password:', echo: false)
       }
+    end
+
+    def load_settings(additional_settings)
+      settings = YAML.safe_load(IO.read(options[:configuration_file]), symbolize_names: true)
+      if settings[:password].nil? || settings[:password].length == 0
+        settings[:password] = ask('Password:', echo: false)
+      end
+      settings[:log_level] = options[:log_level]
+      settings[:socket_file] = options[:socket_file]
+      settings.merge(additional_settings)
     end
   end
 end
