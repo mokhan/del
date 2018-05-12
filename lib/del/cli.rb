@@ -47,15 +47,7 @@ module Del
 
     desc 'setup', 'setup your $HOME/.delrc'
     def setup
-      settings = {
-        host: ask("Where is your xmpp server? (E.g. 'chat.hipchat.com')"),
-        jid: ask('What is your jabber Id?'),
-        muc_domain: ask("What is your MUC domain? (E.g. 'conf.hipchat.com')"),
-        full_name: ask('What is your name?'),
-        password: ask('What is your password?', echo: false),
-      }
-
-      yaml = YAML.dump(settings)
+      yaml = YAML.dump(new_settings)
       IO.write(options[:configuration_file], yaml)
       File.chmod(0o600, options[:configuration_file])
       say ''
@@ -65,6 +57,18 @@ module Del
     desc 'version', 'Print the version of this gem'
     def version
       say Del::VERSION, :green
+    end
+
+    private
+
+    def new_settings
+      {
+        host: ask("Where is your xmpp server? (E.g. 'chat.hipchat.com')"),
+        jid: ask('What is your jabber Id?'),
+        muc_domain: ask("What is your MUC domain? (E.g. 'conf.hipchat.com')"),
+        full_name: ask('What is your name?'),
+        password: ask('What is your password?', echo: false)
+      }
     end
   end
 end
