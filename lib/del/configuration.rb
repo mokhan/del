@@ -4,29 +4,57 @@ module Del
   # This is used to contain all configuration.
   class Configuration
     SOCKET_FILE = '/tmp/del.sock'
-    attr_accessor :default_rooms
-    attr_accessor :host
-    attr_accessor :jid
-    attr_accessor :logger
-    attr_accessor :muc_domain
-    attr_accessor :name
-    attr_accessor :password
     attr_accessor :router
-    attr_accessor :socket_file
     attr_accessor :users
+    attr_writer :default_rooms
+    attr_writer :host
+    attr_writer :jid
+    attr_writer :logger
+    attr_writer :muc_domain
+    attr_writer :name
+    attr_writer :password
+    attr_writer :socket_file
 
     def initialize(settings = {})
-      @default_rooms = settings.fetch(:rooms, [])
-      @host = settings.fetch(:host, 'chat.hipchat.com')
-      @jid = settings.fetch(:jid)
-      @logger = Logger.new(STDOUT)
-      @logger.level = settings.fetch(:log_level, Logger::INFO).to_i
-      @muc_domain = settings.fetch(:muc_domain, 'conf.hipchat.com')
-      @name = settings.fetch(:full_name)
-      @password = settings.fetch(:password)
+      @settings = settings
       @router = DefaultRouter.new
-      @socket_file = settings.fetch(:socket_file, SOCKET_FILE)
       @users = Repository.new(mapper: User)
+    end
+
+    def jid
+      @jid ||= settings.fetch(:jid)
+    end
+
+    def host
+      @host ||= settings.fetch(:host, 'chat.hipchat.com')
+    end
+
+    def muc_domain
+      @muc_domain ||= settings.fetch(:muc_domain, 'conf.hipchat.com')
+    end
+
+    def name
+      @name ||= settings.fetch(:full_name)
+    end
+
+    def password
+      @password ||= settings.fetch(:password)
+    end
+
+    def logger
+      @logger ||=
+        begin
+          x = Logger.new(STDOUT)
+          x.level = settings.fetch(:log_level, Logger::INFO).to_i
+        end
+    end
+
+    def socket_file
+      @socket_file ||= settings.fetch(:socket_file, SOCKET_FILE)
+    end
+
+    def default_rooms
+      @default_rooms ||= settings.fetch(:rooms, [])
     end
 
     def load(file)
@@ -35,5 +63,9 @@ module Del
       Net::Hippie.logger = logger
       eval(Net::Hippie::Api.new(file).get, binding)
     end
+
+    private
+
+    attr_reader :settings
   end
 end
