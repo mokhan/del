@@ -64,11 +64,11 @@ module Del
 
     def new_settings
       {
-        'host' => ask("Where is your xmpp server? (E.g. 'chat.hipchat.com')"),
-        'jid' => ask('What is your jabber Id?'),
-        'muc_domain' => ask("What is your MUC domain? (E.g. 'conf.hipchat.com')"),
-        'full_name' => ask('What is your name?'),
-        'password' => ask('What is your password?', echo: false)
+        'host' => ask("XMPP server: (E.g. 'chat.hipchat.com')"),
+        'jid' => ask('Jabber Id:'),
+        'muc_domain' => ask("MUC domain: (E.g. 'conf.hipchat.com')"),
+        'full_name' => ask('Name:'),
+        'password' => ask('Password:', echo: false)
       }
     end
   end
