@@ -13,5 +13,7 @@ RSpec.describe Del::User do
       expect(result.jid).to eql(attributes['jid'])
       expect(result.attributes).to eql(attributes)
     end
+
+    specify { expect(subject.map_from(nil)).to be_nil }
   end
 end

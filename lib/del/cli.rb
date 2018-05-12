@@ -33,8 +33,34 @@ module Del
 
     desc 'message <jid> <message>', 'send a message to the Jabber ID'
     def message(jid, message)
-      SendMessage.new(self, socket_file: options[:socket_file])
-        .run(jid, message)
+      SendMessage.new(self, socket_file: options[:socket_file]).run(jid, message)
+    end
+
+    desc 'whoami', 'send a whoami message to the local del server'
+    def whoami
+      socket = SocketMessage.new(self, socket_file: options[:socket_file])
+      socket.deliver(command: :whoami)
+      say(socket.listen, :green)
+    ensure
+      socket.close
+    end
+
+    desc 'whois <jid>', 'whois a specific user'
+    def whois(jid)
+      socket = SocketMessage.new(self, socket_file: options[:socket_file])
+      socket.deliver(command: :whois, q: jid)
+      say(socket.listen, :green)
+    ensure
+      socket.close
+    end
+
+    desc 'users', 'list all users'
+    def users
+      socket = SocketMessage.new(self, socket_file: options[:socket_file])
+      socket.deliver(command: :users)
+      say(socket.listen, :green)
+    ensure
+      socket.close
     end
 
     desc 'setup', 'setup your $HOME/.delrc'

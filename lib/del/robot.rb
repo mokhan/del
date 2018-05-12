@@ -35,10 +35,16 @@ module Del
     end
 
     def execute(request)
-      case request['command']
-      when 'send_message'
+      case request['command'].to_sym
+      when :send_message
         send_message(request['jid'], request['message'])
         'Sent!'
+      when :whoami
+        JSON.generate(whois(jid))
+      when :whois
+        JSON.generate(whois(request['q']))
+      when :users
+        JSON.generate(configuration.users.all.map(&:attributes))
       else
         'Unknown'
       end
@@ -59,6 +65,10 @@ module Del
 
     def user?(jid)
       configuration.users[jid]
+    end
+
+    def whois(jid)
+      configuration.users[jid]&.attributes || {}
     end
   end
 end
