@@ -46,6 +46,7 @@ module Del
         begin
           x = Logger.new(STDOUT)
           x.level = settings.fetch(:log_level, Logger::INFO).to_i
+          x
         end
     end
 

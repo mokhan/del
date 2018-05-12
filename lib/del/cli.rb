@@ -13,7 +13,7 @@ module Del
 
     desc 'server <routes.rb>', 'start server'
     def server(startup_file = nil)
-      settings = YAML.safe_load(IO.read(options[:configuration_file]))
+      settings = YAML.safe_load(IO.read(options[:configuration_file]), symbolize_names: true)
       settings[:log_level] = options[:log_level]
       settings[:socket_file] = options[:socket_file]
       settings[:start_server] = true
@@ -29,7 +29,7 @@ module Del
     def console(startup_file = nil)
       require 'irb'
 
-      settings = YAML.safe_load(IO.read(options[:configuration_file]))
+      settings = YAML.safe_load(IO.read(options[:configuration_file]), symbolize_names: true)
       settings[:log_level] = options[:log_level]
       settings[:socket_file] = options[:socket_file]
       settings[:start_server] = false
@@ -63,11 +63,11 @@ module Del
 
     def new_settings
       {
-        host: ask("Where is your xmpp server? (E.g. 'chat.hipchat.com')"),
-        jid: ask('What is your jabber Id?'),
-        muc_domain: ask("What is your MUC domain? (E.g. 'conf.hipchat.com')"),
-        full_name: ask('What is your name?'),
-        password: ask('What is your password?', echo: false)
+        'host' => ask("Where is your xmpp server? (E.g. 'chat.hipchat.com')"),
+        'jid' => ask('What is your jabber Id?'),
+        'muc_domain' => ask("What is your MUC domain? (E.g. 'conf.hipchat.com')"),
+        'full_name' => ask('What is your name?'),
+        'password' => ask('What is your password?', echo: false)
       }
     end
   end
