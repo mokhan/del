@@ -42,7 +42,8 @@ module Del
 
     desc 'message <jid> <message>', 'send a message to the Jabber ID'
     def message(jid, message)
-      SendMessage.new(self).run(jid, message)
+      SendMessage.new(self, socket_file: options[:socket_file])
+        .run(jid, message)
     end
 
     desc 'setup', 'setup your $HOME/.delrc'

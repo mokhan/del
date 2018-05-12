@@ -26,7 +26,7 @@ module Del
       roster.wait_for_roster
       client.add_message_callback do |message|
         next if message.type == :error || message.body.nil?
-        user = configuration.users.find_by(message.from.strip)
+        user = configuration.users.find(message.from.strip)
         robot.receive(message.body, source: Source.new(user: user))
       end
       client.send(Jabber::Presence.new(:chat))

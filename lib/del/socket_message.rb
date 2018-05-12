@@ -2,8 +2,9 @@
 
 module Del
   class SocketMessage
-    def initialize(shell)
+    def initialize(shell, socket_file:)
       @shell = shell
+      @socket_file = socket_file
     end
 
     def deliver(payload)
@@ -30,7 +31,7 @@ module Del
     end
 
     def socket
-      @socket ||= UNIXSocket.new(options[:socket_file])
+      @socket ||= UNIXSocket.new(@socket_file)
     end
   end
 end
