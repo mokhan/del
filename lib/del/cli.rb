@@ -42,18 +42,7 @@ module Del
 
     desc 'message <jid> <message>', 'send a message to the Jabber ID'
     def message(jid, message)
-      socket = UNIXSocket.new(options[:socket_file])
-      socket.puts(
-        JSON.generate(command: :send_message, jid: jid, message: message)
-      )
-      say socket.readline, :green
-    rescue EOFError => error
-      say error.message, :red
-    rescue Errno::ECONNREFUSED => error
-      say error.message, :red
-      say 'You must start the del server first.', :yellow
-    ensure
-      socket&.close
+      SendMessage.new(self).run(jid, message)
     end
 
     desc 'setup', 'setup your $HOME/.delrc'
