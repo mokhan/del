@@ -35,19 +35,12 @@ module Del
     end
 
     def execute(request)
-      case request['command'].to_sym
-      when :send_message
-        send_message(request['jid'], request['message'])
-        'Sent!'
-      when :whoami
-        JSON.generate(whois(jid))
-      when :whois
-        JSON.generate(whois(request['q']))
-      when :users
-        JSON.generate(configuration.users.all.map(&:attributes))
-      else
-        'Unknown'
-      end
+      {
+        send_message: -> { send_message(request['jid'], request['message']); 'Sent!' },
+        users: -> { JSON.generate(configuration.users.all.map(&:attributes)) },
+        whoami: -> { JSON.generate(whois(jid)) },
+        whois: -> { JSON.generate(whois(request['q'])) },
+      }[request['command'].to_sym]&.call || 'Unknown'
     end
 
     private
