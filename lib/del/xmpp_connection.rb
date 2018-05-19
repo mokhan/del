@@ -2,7 +2,7 @@
 
 module Del
   # An XMPP Connection
-  class Connection
+  class XMPPConnection
     attr_reader :configuration
 
     def initialize(configuration:)

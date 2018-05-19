@@ -42,7 +42,7 @@ module Del
     attr_reader :configuration
 
     def xmpp_connection
-      @xmpp_connection ||= Connection.new(configuration: configuration)
+      @xmpp_connection ||= XMPPConnection.new(configuration: configuration)
     end
 
     def socket_server

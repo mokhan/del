@@ -13,7 +13,6 @@ require 'xmpp4r/roster/helper/roster'
 require 'yaml'
 
 require 'del/configuration'
-require 'del/connection'
 require 'del/default_router'
 require 'del/message'
 require 'del/repository'
@@ -27,6 +26,7 @@ require 'del/source'
 require 'del/tron'
 require 'del/user'
 require 'del/version'
+require 'del/xmpp_connection'
 
 # Del the funky robosapien.
 module Del
