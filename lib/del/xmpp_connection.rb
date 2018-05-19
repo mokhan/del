@@ -15,7 +15,7 @@ module Del
       connect_to_xmpp_server
       roster = discover_users
       listen_for_direct_messages(robot)
-      update_status
+      update_status(:chat)
       discover_rooms(robot, roster)
     end
 
@@ -34,6 +34,11 @@ module Del
       client.close
     rescue IOError, SystemCallError => error
       Del.logger.error(error)
+    end
+
+    # :chat, :away, :dnd, :xa
+    def update_status(show = :chat, message: nil)
+      client.send(Jabber::Presence.new(show, message))
     end
 
     private
@@ -89,10 +94,6 @@ module Del
         user = configuration.users.find(message.from.strip)
         robot.receive(message.body, source: Source.new(user: user))
       end
-    end
-
-    def update_status(status = :chat)
-      client.send(Jabber::Presence.new(status))
     end
 
     def discover_rooms(robot, roster)

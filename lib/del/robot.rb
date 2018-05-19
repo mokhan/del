@@ -37,6 +37,17 @@ module Del
       end
     end
 
+    {
+      away!: :away,
+      do_not_disturb!: :dnd,
+      offline!: :xa,
+      online!: :chat
+    }.each do |name, value|
+      define_method name do
+        xmpp_connection.update_status(value)
+      end
+    end
+
     private
 
     attr_reader :configuration
