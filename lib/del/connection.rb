@@ -26,8 +26,7 @@ module Del
     end
 
     def deliver_to_room(jid, message)
-      multi_user_chat = @rooms[jid.strip.to_s]
-      multi_user_chat&.say(encode_string(message))
+      @rooms[jid.strip.to_s]&.say(encode_string(message))
     end
 
     def disconnect
@@ -45,13 +44,6 @@ module Del
 
     def jid
       @jid ||= jid_for(configuration.jid, 'chat.hipchat.com', 'bot')
-    end
-
-    def list_rooms(multi_user_chat_domain)
-      browser = Jabber::MUC::MUCBrowser.new(client)
-      browser.muc_rooms(multi_user_chat_domain).map do |jid, _name|
-        jid.to_s
-      end
     end
 
     def encode_string(item)
@@ -105,18 +97,13 @@ module Del
 
     def discover_rooms(robot, roster)
       configuration.default_rooms.each do |room|
-        Del.logger.debug("Joining room '#{room}' as '#{robot.name}'")
         room_jid = jid_for(room, configuration.muc_domain.dup, robot.name)
         stripped_jid = room_jid.strip.to_s
         next if @rooms[stripped_jid]
 
-        multi_user_chat =
-          @rooms[stripped_jid] = Jabber::MUC::SimpleMUCClient.new(client)
-        listen_for_room_messages(multi_user_chat, room_jid, robot, roster)
+        muc = @rooms[stripped_jid] = Jabber::MUC::SimpleMUCClient.new(client)
+        listen_for_room_messages(muc, room_jid, robot, roster)
       end
-      # list_rooms(configuration.muc_domain).each do |room|
-      # rooms.upsert(room)
-      # end
     end
 
     def listen_for_room_messages(multi_user_chat, room_jid, robot, roster)
