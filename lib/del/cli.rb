@@ -39,6 +39,15 @@ module Del
       ).run(jid, message)
     end
 
+    desc 'status <status> <message>', 'status to online, offline, away, or busy'
+    def status(status, message = nil)
+      socket = SocketMessage.new(self, socket_file: options[:socket_file])
+      socket.deliver(command: :change_status, status: status, message: message)
+      say(socket.listen, :green)
+    ensure
+      socket.close
+    end
+
     desc 'whoami', 'send a whoami message to the local del server'
     def whoami
       socket = SocketMessage.new(self, socket_file: options[:socket_file])

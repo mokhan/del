@@ -39,7 +39,7 @@ module Del
 
     {
       away!: :away,
-      do_not_disturb!: :dnd,
+      busy!: :dnd,
       offline!: :xa,
       online!: :chat
     }.each do |name, value|

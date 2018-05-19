@@ -11,6 +11,7 @@ module Del
 
     def execute(request)
       {
+        change_status: -> { change_status(request) },
         send_message: -> { send_message(request) },
         users: -> { users(request) },
         whoami: -> { whoami(request) },
@@ -35,6 +36,11 @@ module Del
 
     def whoami(_request)
       JSON.generate(whois(robot.jid))
+    end
+
+    def change_status(request)
+      robot.public_send("#{request['status'].downcase}!", request['message'])
+      'Done!'
     end
   end
 end
