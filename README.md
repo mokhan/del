@@ -24,6 +24,14 @@ Run the setup command.
 
     $ del setup
 
+By default all configuration is stored in a yaml file in your $HOME
+directory named `.delrc`. E.g. `~/.delrc`
+
+The setup will ask you for your XMPP password. If you are uncomfortable
+storing your password in the `.delrc` you may skip that prompt. If you
+choose not to store your password in `.delrc` then Del will prompt you
+for your password each time you interact with Del.
+
 Start the chat server:
 
     $ del server
@@ -36,20 +44,46 @@ Start the server with a remote file:
 
     $ del server https://gist.githubusercontent.com/mokhan/15882e15908273f7880eaeaa336d12d9/raw/a54db41e7824315b63b3e4e88df5c2f74ce27e30/routes.rb
 
-Once the server is started, you may use the client to send messages
-through it.
+Once the server is started, you may use the client to issue different commands:
+
+Send a message to another user:
 
     $ del message 1_79@chat.btf.hipchat.com "Hello, World!"
 
-See the help for additional information:
+Change your status:
+
+    $ del status busy "I am on a WebEx call"
+
+Print your profile information:
+
+    $ del whoami
+
+Print the profile information of another user:
+
+    $ del whois <jid>
+
+Print all users:
+
+    $ del users
+
+Interact with Del using a REPL:
+
+    $ del console
+    irb(main):001:0> Del.bot.busy!("I am really, really busy!")
+    irb(main):002:0> Del.bot.online!
+
+See help for additional information:
 
     $ del help
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bin/setup` to install dependencies.
+Then, run `bin/cibuild` to run the tests and linters.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+
+To install this gem onto your local machine, run `bundle exec rake install`.
 
 ## Contributing
 
