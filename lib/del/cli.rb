@@ -97,12 +97,16 @@ module Del
         IO.read(options[:configuration_file]),
         symbolize_names: true
       )
-      if settings[:password].nil? || settings[:password].length.zero?
+      if blank?(settings[:password])
         settings[:password] = ask('Password:', echo: false)
       end
       settings[:log_level] = options[:log_level]
       settings[:socket_file] = options[:socket_file]
       settings.merge(additional_settings)
+    end
+
+    def blank?(string)
+      string.nil? || string.length.zero?
     end
   end
 end
