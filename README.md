@@ -1,4 +1,10 @@
-# Del
+# Del the funky robosapien
+
+[![Build Status](https://travis-ci.org/mokhan/del.svg?branch=master)](https://travis-ci.org/mokhan/del)
+
+Del is a CLI/library for proxying requests to an XMPP server. It
+can be used to configure chat bots to respond to direct messages or
+messages in a multi user chat (MUC) room.
 
 [Del is a funky robosapien](https://www.delhiero.com/)
 
@@ -43,6 +49,8 @@ Start the server with a file containing custom chat routes:
 Start the server with a remote file:
 
     $ del server https://gist.githubusercontent.com/mokhan/15882e15908273f7880eaeaa336d12d9/raw/a54db41e7824315b63b3e4e88df5c2f74ce27e30/routes.rb
+
+See [link](https://gist.githubusercontent.com/mokhan/15882e15908273f7880eaeaa336d12d9/raw/a54db41e7824315b63b3e4e88df5c2f74ce27e30/routes.rb) for content.
 
 Once the server is started, you may use the client to issue different commands:
 
