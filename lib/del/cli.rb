@@ -39,7 +39,7 @@ module Del
       ).run(jid, message)
     end
 
-    desc 'status <status> <message>', 'status to online, offline, away, or busy'
+    desc 'status <status> <message>', 'status to online, away, or busy'
     def status(status, message = nil)
       socket = SocketMessage.new(self, socket_file: options[:socket_file])
       socket.deliver(command: :change_status, status: status, message: message)

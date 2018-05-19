@@ -41,6 +41,8 @@ module Del
     def change_status(request)
       robot.public_send("#{request['status'].downcase}!", request['message'])
       'Done!'
+    rescue
+      "Error: Invalid status"
     end
   end
 end
