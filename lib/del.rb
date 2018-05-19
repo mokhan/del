@@ -23,6 +23,7 @@ require 'del/socket_connection'
 require 'del/socket_message'
 require 'del/socket_server'
 require 'del/source'
+require 'del/tron'
 require 'del/user'
 require 'del/version'
 

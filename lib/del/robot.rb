@@ -14,7 +14,10 @@ module Del
     def get_funky!(start_server: true)
       Del.logger.info('🔥🔥🔥')
       xmpp_connection.connect(self)
-      socket_server.run(self) if start_server
+      if start_server
+        deltron = Del::Tron.new(self, configuration)
+        socket_server.run(deltron)
+      end
     rescue Interrupt
       xmpp_connection.disconnect
     end
@@ -34,18 +37,6 @@ module Del
       end
     end
 
-    def execute(request)
-      {
-        send_message: lambda do
-          send_message(request['jid'], request['message'])
-          'Sent!'
-        end,
-        users: -> { JSON.generate(configuration.users.all.map(&:attributes)) },
-        whoami: -> { JSON.generate(whois(jid)) },
-        whois: -> { JSON.generate(whois(request['q'])) }
-      }[request['command'].to_sym]&.call || 'Unknown'
-    end
-
     private
 
     attr_reader :configuration
@@ -61,10 +52,6 @@ module Del
 
     def user?(jid)
       configuration.users[jid]
-    end
-
-    def whois(jid)
-      configuration.users[jid]&.attributes || {}
     end
   end
 end
