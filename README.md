@@ -82,7 +82,28 @@ Interact with Del using a REPL:
 
 See help for additional information:
 
-    $ del help
+```bash
+も del help
+Commands:
+  del console <config.rb>        # start read-eval-print-loop
+  del help [COMMAND]             # Describe available commands or one specific command
+  del message <jid> <message>    # send a message to the Jabber ID
+  del server <routes.rb>         # start server
+  del setup                      # setup your $HOME/.delrc
+  del status <status> <message>  # status to online, away, or busy
+  del users                      # list all users
+  del version                    # Print the version of this gem
+  del whoami                     # send a whoami message to the local del server
+  del whois <jid>                # whois a specific user
+
+Options:
+  [--configuration-file=CONFIGURATION_FILE]
+                                             # Default: /home/del/.delrc
+  [--socket-file=SOCKET_FILE]
+                                             # Default: /tmp/del.sock
+  [--log-level=LOG_LEVEL]
+                                             # Default: 1
+```
 
 ## Development
 
