@@ -17,6 +17,8 @@ module Del
         whoami: -> { whoami(request) },
         whois: -> { JSON.generate(whois(request['q'])) }
       }[request['command'].to_sym]&.call || 'Unknown'
+    rescue StandardError => error
+      error.message
     end
 
     private
@@ -41,8 +43,8 @@ module Del
     def change_status(request)
       robot.public_send("#{request['status'].downcase}!", request['message'])
       'Done!'
-    rescue
-      "Error: Invalid status"
+    rescue NoMethodError
+      'Error: Invalid status'
     end
   end
 end
