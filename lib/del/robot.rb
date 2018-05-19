@@ -43,8 +43,8 @@ module Del
       offline!: :xa,
       online!: :chat
     }.each do |name, value|
-      define_method name do
-        xmpp_connection.update_status(value)
+      define_method name do |message = nil|
+        xmpp_connection.update_status(value, message: message)
       end
     end
 
