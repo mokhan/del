@@ -36,7 +36,10 @@ module Del
 
     def execute(request)
       {
-        send_message: -> { send_message(request['jid'], request['message']); 'Sent!' },
+        send_message: lambda do
+          send_message(request['jid'], request['message'])
+          'Sent!'
+        end,
         users: -> { JSON.generate(configuration.users.all.map(&:attributes)) },
         whoami: -> { JSON.generate(whois(jid)) },
         whois: -> { JSON.generate(whois(request['q'])) }

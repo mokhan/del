@@ -33,7 +33,10 @@ module Del
 
     desc 'message <jid> <message>', 'send a message to the Jabber ID'
     def message(jid, message)
-      SendMessage.new(self, socket_file: options[:socket_file]).run(jid, message)
+      SendMessage.new(
+        self,
+        socket_file: options[:socket_file]
+      ).run(jid, message)
     end
 
     desc 'whoami', 'send a whoami message to the local del server'
@@ -90,8 +93,11 @@ module Del
     end
 
     def load_settings(additional_settings)
-      settings = YAML.safe_load(IO.read(options[:configuration_file]), symbolize_names: true)
-      if settings[:password].nil? || settings[:password].length == 0
+      settings = YAML.safe_load(
+        IO.read(options[:configuration_file]),
+        symbolize_names: true
+      )
+      if settings[:password].nil? || settings[:password].length.zero?
         settings[:password] = ask('Password:', echo: false)
       end
       settings[:log_level] = options[:log_level]

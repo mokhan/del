@@ -41,7 +41,11 @@ module Del
         muc.on_message do |_, nickname, message|
           Del.logger.debug([nickname, message].inspect)
           other_jid = roster.items.find { |_jid, item| item.iname == nickname }
-          robot.receive(message, source: Source.new(user: User.new(other_jid[0], other_jid[1]), room: stripped_jid))
+          source = Source.new(
+            user: User.new(other_jid[0], other_jid[1]),
+            room: stripped_jid
+          )
+          robot.receive(message, source: source)
         end
         muc.join(room_jid)
       end
