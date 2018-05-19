@@ -61,12 +61,20 @@ module Del
     def load(file)
       return if file.nil?
       return Kernel.load(file) if File.exist?(file)
-      Net::Hippie.logger = logger
-      eval(Net::Hippie::Api.new(file).get, binding)
+      download(file)
     end
 
     private
 
     attr_reader :settings
+
+    def download(url)
+      Net::Hippie.logger = logger
+      content = Net::Hippie::Api.new(url).get
+
+      path = Tempfile.new('del').path
+      IO.write(path, content)
+      load(path)
+    end
   end
 end
