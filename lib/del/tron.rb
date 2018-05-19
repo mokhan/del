@@ -10,18 +10,26 @@ module Del
     end
 
     def execute(request)
-      {
-        change_status: -> { change_status(request) },
-        send_message: -> { send_message(request) },
-        users: -> { users(request) },
-        whoami: -> { whoami(request) },
-        whois: -> { JSON.generate(whois(request['q'])) }
-      }[request['command'].to_sym]&.call || 'Unknown'
+      command_for(request)&.call(request) || 'Unknown'
     rescue StandardError => error
       error.message
     end
 
     private
+
+    def commands
+      {
+        change_status: ->(request) { change_status(request) },
+        send_message: ->(request) { send_message(request) },
+        users: ->(request) { users(request) },
+        whoami: ->(request) { whoami(request) },
+        whois: ->(request) { JSON.generate(whois(request['q'])) }
+      }
+    end
+
+    def command_for(request)
+      commands[request['command'].to_sym]
+    end
 
     def whois(jid)
       configuration.users[jid]&.attributes || {}
