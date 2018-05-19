@@ -34,7 +34,7 @@ module Del
     end
 
     def whoami(_request)
-      JSON.generate(whois(jid))
+      JSON.generate(whois(robot.jid))
     end
   end
 end
