@@ -14,6 +14,8 @@ module Del
     desc 'server <routes.rb>', 'start server'
     def server(startup_file = nil)
       Del.start(load_settings(start_server: true, startup_file: startup_file))
+    rescue Psych::DisallowedClass => error
+      say error.message, :red
     rescue Errno::ENOENT => error
       say error.message, :red
       say "run 'del setup'", :yellow
@@ -104,6 +106,7 @@ module Del
     def load_settings(additional_settings)
       settings = YAML.safe_load(
         IO.read(options[:configuration_file]),
+        [Symbol],
         symbolize_names: true
       )
       if blank?(settings[:password])
