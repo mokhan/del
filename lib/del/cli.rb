@@ -106,8 +106,7 @@ module Del
     def load_settings(additional_settings)
       settings = YAML.safe_load(
         IO.read(options[:configuration_file]),
-        [Symbol],
-        symbolize_names: true
+        [Symbol], symbolize_names: true
       )
       if blank?(settings[:password])
         settings[:password] = ask('Password:', echo: false)
