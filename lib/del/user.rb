@@ -20,6 +20,7 @@ module Del
 
     def self.map_from(attributes)
       return nil if attributes.nil?
+
       new(attributes['jid'], attributes)
     end
   end

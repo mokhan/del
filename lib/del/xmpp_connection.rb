@@ -91,6 +91,7 @@ module Del
     def listen_for_direct_messages(robot)
       client.add_message_callback do |message|
         next if message.type == :error || message.body.nil?
+
         user = configuration.users.find(message.from.strip)
         robot.receive(message.body, source: Source.new(user: user))
       end

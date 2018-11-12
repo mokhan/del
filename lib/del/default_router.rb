@@ -15,6 +15,7 @@ module Del
     def route(message)
       @routes.each do |route|
         next unless (matches = route[:pattern].match(message.text))
+
         begin
           route[:command].call(message, matches)
         rescue StandardError => error

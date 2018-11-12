@@ -24,6 +24,7 @@ module Del
 
     def receive(message, source:)
       return if source.from?(self)
+
       configuration.router.route(
         Message.new(message, robot: self, source: source)
       )

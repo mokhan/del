@@ -61,6 +61,7 @@ module Del
     def load(file)
       return if file.nil?
       return Kernel.load(file) if File.exist?(file)
+
       download(file)
     end
 
