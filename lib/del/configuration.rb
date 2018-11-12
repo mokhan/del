@@ -71,12 +71,12 @@ module Del
     def download(url)
       Net::Hippie.logger = logger
 
-      Net::Hippie::Client.new.yield_self do |x|
-        response = x.get(url)
-        path = Tempfile.new('del').path
-        IO.write(path, response.body)
-        load(path)
+      response = Net::Hippie::Client.new.yield_self do |x|
+        x.with_retry { |y| y.get(url) }
       end
+      path = Tempfile.new('del').path
+      IO.write(path, response.body)
+      load(path)
     end
   end
 end
