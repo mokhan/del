@@ -1,4 +1,3 @@
-
 # frozen_string_literal: true
 
 lib = File.expand_path('lib', __dir__)
@@ -13,7 +12,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = 'Del is a funky robosapien.'
   spec.description   = 'Del is a funky robosapien.'
-  spec.homepage      = 'https://www.mokhan.ca'
+  spec.homepage      = 'https://github.com/mokhan/del'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
