@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   }
 
   spec.add_dependency 'net-hippie', '~> 0.2'
-  spec.add_dependency 'thor', '~> 0.20'
+  spec.add_dependency 'thor', '>= 0.20', '< 2.0'
   spec.add_dependency 'xmpp4r', '~> 0.5'
   spec.add_development_dependency 'bundler', '~> 1.16'
   spec.add_development_dependency 'bundler-audit', '~> 0.6'
